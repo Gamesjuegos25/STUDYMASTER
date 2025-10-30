@@ -158,3 +158,119 @@ Que se forma con más de un campo (ej. PRIMARY KEY(snro, pnro)).
 ¿Cómo se define una clave foránea hacia una clave primaria compuesta?  
 FOREIGN KEY(cf_snro, cf_pnro) REFERENCES envio(snro, pnro).  
 
+--2do--¿Para qué sirve la sentencia INSERT en SQL?  
+Para agregar registros a una tabla.  
+
+¿Cuál es la sintaxis básica de la sentencia INSERT?  
+INSERT [INTO] <NombreTabla> [(campos)] VALUES (valores);  
+
+¿Es obligatorio especificar los campos en la sentencia INSERT?  
+No, pero si no se especifican, se deben proporcionar valores para todos los campos en orden.  
+
+¿Qué ocurre si no se especifica un campo en la sentencia INSERT?  
+Ese campo tomará el valor por defecto o NULL si no tiene restricción NOT NULL.  
+
+¿Para qué sirve la sentencia UPDATE en SQL?  
+Para modificar registros existentes en una tabla.  
+
+¿Cuál es la sintaxis básica de la sentencia UPDATE?  
+UPDATE <NombreTabla> SET campo = nuevo_valor [WHERE condición];  
+
+¿Es obligatorio usar la cláusula WHERE en una sentencia UPDATE?  
+No, pero si no se usa, se actualizarán todas las filas de la tabla.  
+
+¿Se pueden actualizar varios campos en una sola sentencia UPDATE?  
+Sí, separándolos por comas.  
+
+¿Se pueden usar subconsultas en una sentencia UPDATE?  
+Sí, tanto en la cláusula SET como en la cláusula WHERE.  
+
+¿Qué hace la siguiente sentencia: UPDATE Curso SET horas = 0?  
+Actualiza el valor del campo horas a 0 en todas las filas de la tabla Curso.  
+
+¿Qué hace la siguiente sentencia: UPDATE Curso SET nombre = 'Calculo', horas = 5 WHERE CursoID = 'C03'?  
+Modifica el nombre y las horas del curso con ID C03 a 'Calculo' y 5 respectivamente.  
+
+¿Para qué sirve la sentencia DELETE en SQL?  
+Para eliminar una o más filas de una tabla.  
+
+¿Cuál es la sintaxis básica de la sentencia DELETE?  
+DELETE FROM <NombreTabla> [WHERE condición];  
+
+¿Qué ocurre si no se especifica la cláusula WHERE en una sentencia DELETE?  
+Se eliminarán todas las filas de la tabla.  
+
+¿Qué hace la siguiente sentencia: DELETE FROM Curso WHERE horas = 2?  
+Elimina todas las filas de la tabla Curso donde el valor de horas sea igual a 2.  
+
+¿Para qué sirve la sentencia DROP en SQL?  
+Para eliminar completamente una tabla y todos sus datos de la base de datos.  
+
+¿Cuál es la sintaxis básica de la sentencia DROP?  
+DROP TABLE [schema.] tabla [CASCADE CONSTRAINTS] [PURGE];  
+
+¿Qué hace la sentencia DROP TABLE curso PURGE?  
+Elimina la tabla curso de forma permanente, sin pasar por la papelera de reciclaje.  
+
+--3ro-¿Qué es la normalización en bases de datos?  
+Es el proceso de transformar datos complejos en estructuras más simples, estables y fáciles de mantener.  
+
+¿Por qué se adoptó la normalización?  
+Porque almacenar todos los datos en un solo lugar era ineficiente y generaba errores de lógica.  
+
+¿Cuáles son los objetivos de la normalización?  
+Evitar redundancia, problemas de actualización y proteger la integridad de los datos.  
+
+¿Qué condiciones debe cumplir una tabla para ser considerada una relación?  
+Columnas con nombres únicos, sin filas duplicadas, y datos homogéneos por columna.  
+
+¿Cuáles son los tres niveles básicos de normalización?  
+Primera Forma Normal (1FN), Segunda Forma Normal (2FN), Tercera Forma Normal (3FN).  
+
+¿Qué implica la Primera Forma Normal (1FN)?  
+Eliminar grupos repetidos y asegurar que cada celda contenga valores atómicos.  
+
+¿Qué implica la Segunda Forma Normal (2FN)?  
+Eliminar dependencias parciales; los atributos no clave deben depender completamente de la clave primaria.  
+
+¿Qué implica la Tercera Forma Normal (3FN)?  
+Eliminar dependencias transitivas; los atributos no clave no deben depender de otros atributos no clave.  
+
+¿Qué problemas presenta una base de datos no normalizada?  
+Redundancia, errores de actualización, falta de integridad y pérdida de datos por inserción o borrado.  
+
+¿Qué significa que los valores sean atómicos en 1FN?  
+Que cada celda contiene un solo valor, sin listas ni arreglos.  
+
+¿Qué se debe evitar en 1FN respecto a las filas y columnas?  
+Evitar columnas repetidas y filas duplicadas.  
+
+¿Qué es una dependencia parcial en 2FN?  
+Cuando un atributo no clave depende solo de parte de la clave primaria.  
+
+¿Qué se debe hacer si hay dependencia parcial?  
+Separar los datos en tablas distintas para cumplir con 2FN.  
+
+¿Qué es una dependencia transitiva en 3FN?  
+Cuando un atributo no clave depende de otro atributo no clave.  
+
+¿Cómo se elimina una dependencia transitiva?  
+Separando los atributos en tablas distintas donde cada uno dependa directamente de la clave primaria.  
+
+¿Qué ventajas ofrece la normalización?  
+Integridad de datos, consultas optimizadas, índices más rápidos, mejor rendimiento de UPDATE y mejor concurrencia.  
+
+¿Qué es un log de transacciones?  
+Es una tabla donde se registran todos los cambios realizados a los datos.  
+
+¿Qué comandos delimitan una transacción?  
+BEGIN TRANSACTION y COMMIT TRANSACTION.  
+
+¿Qué es un procedimiento almacenado?  
+Es un bloque de código compilado en el servidor que puede aceptar parámetros y ejecutarse con eficiencia.  
+
+¿Dónde se ejecuta un procedimiento almacenado?  
+En el servidor de base de datos.  
+
+¿Cuál es la sintaxis básica de un procedimiento almacenado?  
+CREATE [OR REPLACE] PROCEDURE <nombre> [(parámetros)] IS BEGIN ... END;  
