@@ -672,6 +672,7 @@
             loadGameData();
             updateGameStats();
             setupFileUpload();
+            autoLoadQuestions(); // Cargar preguntas automáticamente
         });
 
         // Sistema de archivos
@@ -718,6 +719,85 @@
                     handleFile(files[0]);
                 }
             });
+        }
+
+        // Cargar automáticamente el archivo estudioBD.txt
+        function autoLoadQuestions() {
+            console.log('🔄 Cargando preguntas automáticamente...');
+            
+            // Intentar cargar el archivo estudioBD.txt usando fetch
+            fetch('./estudioBD.txt')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('No se pudo cargar estudioBD.txt');
+                    }
+                    return response.text();
+                })
+                .then(content => {
+                    console.log('✅ Archivo estudioBD.txt cargado exitosamente');
+                    console.log('📄 Contenido:', content.substring(0, 100) + '...');
+                    
+                    questions = parseQuestions(content);
+                    console.log('❓ Preguntas parseadas:', questions.length);
+                    
+                    if (questions.length > 0) {
+                        // Ocultar área de carga y mostrar botón para empezar
+                        document.getElementById('fileUpload').style.display = 'none';
+                        showStartButton();
+                    } else {
+                        console.log('⚠️ No se encontraron preguntas válidas, mostrando carga manual');
+                    }
+                })
+                .catch(error => {
+                    console.log('❌ Error cargando archivo automático:', error);
+                    console.log('📁 Mostrando interfaz de carga manual');
+                    // Si falla la carga automática, mostrar interfaz normal
+                });
+        }
+
+        // Mostrar botón para iniciar sesión de estudio
+        function showStartButton() {
+            const fileUpload = document.getElementById('fileUpload');
+            fileUpload.innerHTML = `
+                <div style="text-align: center; padding: 30px;">
+                    <div style="font-size: 1.5rem; margin-bottom: 20px;">📚 ${questions.length} preguntas cargadas</div>
+                    <div style="margin-bottom: 30px; color: #666;">Base de Datos - Estudiando</div>
+                    <button onclick="startStudySession()" style="
+                        background: linear-gradient(135deg, #e91e63 0%, #ad1457 100%);
+                        color: white;
+                        border: none;
+                        padding: 15px 30px;
+                        border-radius: 25px;
+                        font-size: 1.2rem;
+                        font-weight: bold;
+                        cursor: pointer;
+                        box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+                        transition: all 0.3s ease;
+                    " onmouseover="this.style.transform='translateY(-2px) scale(1.05)'" 
+                       onmouseout="this.style.transform='translateY(0) scale(1)'">
+                        🚀 ¡Comenzar Estudio!
+                    </button>
+                    <div style="margin-top: 20px;">
+                        <button onclick="showManualUpload()" style="
+                            background: transparent;
+                            color: #666;
+                            border: 2px dashed #ddd;
+                            padding: 10px 20px;
+                            border-radius: 15px;
+                            cursor: pointer;
+                            font-size: 0.9rem;
+                        ">
+                            📁 Cargar otro archivo
+                        </button>
+                    </div>
+                </div>
+            `;
+            fileUpload.style.display = 'block';
+        }
+
+        // Mostrar interfaz de carga manual
+        function showManualUpload() {
+            location.reload(); // Recargar para mostrar interfaz original
         }
 
         function handleFileSelect(event) {

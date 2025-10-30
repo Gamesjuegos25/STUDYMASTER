@@ -1,0 +1,160 @@
+
+¿Quién propuso el modelo relacional y en qué año?  
+Dr. Edgar (Ted) Codd, en 1970.  
+
+¿Cuál es el elemento estructural fundamental del modelo relacional?  
+La tabla: todo se guarda en tablas.  
+
+¿Qué características deben tener los campos (columnas) en una tabla relacional?  
+Nombres únicos, tipo de dato único, datos atómicos, permiten valores nulos, y claves definidas.  
+
+¿Qué significa que los datos sean atómicos en una tabla?  
+Que cada entrada es indivisible; no se permiten listas ni estructuras.  
+
+¿Qué operadores fundamentales definió Codd para manipular datos?  
+SELECT, PROJECT, JOIN.  
+
+¿Qué hace el operador SELECT en álgebra relacional?  
+Extrae filas que cumplen ciertos criterios y genera una nueva tabla.  
+
+¿Qué hace el operador PROJECT?  
+Extrae columnas específicas y genera una nueva tabla.  
+
+¿Qué hace el operador JOIN?  
+Une dos tablas en una nueva, combinando registros relacionados.  
+
+¿Qué es la integridad de entidad?  
+Garantiza que los campos clave tengan valores no nulos y que los registros sean localizables.  
+
+¿Qué es la integridad referencial y qué condiciones debe cumplir?  
+Impide borrar registros referenciados por otras tablas; las claves deben ser del mismo tipo.  
+
+¿Qué significa SQL y de dónde proviene su nombre?  
+Structured Query Language, derivado de Sequel (IBM, 1974).  
+
+¿SQL forma parte del modelo relacional?  
+No, pero se usa para implementarlo.  
+
+¿Qué otros lenguajes de consulta pueden aplicarse al modelo relacional?  
+Query-By-Example (QBE) y otros lenguajes.  
+
+¿Qué tipo de lenguaje es SQL según Codd?  
+Lenguaje completo: definición (DDL) y manipulación (DML).  
+
+¿Qué significa que SQL tenga una estructura "pseudo inglesa"?  
+Su sintaxis se asemeja al inglés, facilitando su lectura.  
+
+¿Para qué se utiliza el lenguaje DDL?  
+Para definir estructuras como tablas, vistas e índices.  
+
+Menciona cinco comandos del DDL y su función.  
+CREATE (crear), ALTER (modificar), DROP (eliminar), TRUNCATE (vaciar tabla), COMMENT (agregar comentarios), RENAME (renombrar).  
+
+¿Qué operaciones permite realizar el DML?  
+Consultar, insertar, actualizar y eliminar datos.  
+
+Menciona los comandos principales del DML.  
+SELECT, INSERT, UPDATE, DELETE.  
+
+¿Qué operaciones permite realizar el DCL?  
+Controlar accesos y privilegios de usuarios.  
+
+¿Qué comandos se utilizan para otorgar y revocar privilegios?  
+GRANT (otorgar), REVOKE (revocar).  
+
+Menciona tres tipos de datos numéricos en SQL.  
+INTEGER, NUMERIC(n,m), FLOAT.  
+
+¿Qué tipo de dato se usa para almacenar archivos binarios?  
+BLOB.  
+
+¿Qué tipo de dato se usa para valores lógicos?  
+BIT.  
+
+Menciona tres operadores aritméticos y su función.  
++ (suma), - (resta), * (producto).  
+
+Menciona tres operadores relacionales y su función.  
+< (menor que), > (mayor que), <> o != (distinto).  
+
+¿Qué operadores lógicos existen en SQL?  
+AND, OR, NOT.  
+
+¿Qué función devuelve el valor máximo de un campo?  
+MAX().  
+
+¿Qué función cuenta el número de filas?  
+COUNT().  
+
+¿Qué función calcula el promedio?  
+AVG().  
+
+¿Qué hace el predicado BETWEEN?  
+Verifica si un valor está entre dos límites.  
+
+¿Qué hace el predicado LIKE?  
+Compara cadenas con comodines.  
+
+¿Qué hace el predicado EXISTS?  
+Verifica si una subconsulta devuelve resultados.  
+
+¿Qué carácter se usa para reemplazar un solo carácter?  
+? o _.  
+
+¿Qué carácter se usa para reemplazar varios caracteres?  
+* o %.  
+
+¿Qué carácter representa un dígito cualquiera?  
+#.  
+
+¿Qué significan los símbolos <>, [], {}, y | en la sintaxis SQL?  
+<>: parámetros a sustituir, []: opcional, {}: repetible, |: separador de opciones.  
+
+¿Qué comando se usa para crear una tabla?  
+CREATE TABLE.  
+
+¿Qué comando se usa para crear una vista?  
+CREATE VIEW nombre_vista AS consulta.  
+
+¿Qué comando se usa para crear un índice?  
+CREATE INDEX nombreindice ON tabla(columna).  
+
+¿Qué comando se usa para modificar una tabla?  
+ALTER TABLE.  
+
+¿Qué comando se usa para eliminar una tabla?  
+DROP TABLE.  
+
+¿Qué es una restricción de dominio?  
+Conjunto de valores y operaciones permitidas para un campo.  
+
+¿Qué tipo de datos permite la cláusula NUMBER(p,s)?  
+Valores numéricos con precisión p y escala s.  
+
+¿Qué cláusula se usa para evitar valores nulos?  
+NOT NULL.  
+
+¿Qué cláusula garantiza la existencia de claves foráneas?  
+FOREIGN KEY y REFERENCES.  
+
+¿Qué cláusula garantiza unicidad y obligatoriedad de una clave primaria?  
+PRIMARY KEY.  
+
+¿Qué cláusula se usa para claves alternativas?  
+UNIQUE (y opcionalmente NOT NULL).  
+
+¿Qué cláusula se usa para condiciones de chequeo?  
+CHECK (condición).  
+
+¿Qué ciudades son válidas en el campo ciudad de la tabla DEPARTAMENTO?  
+Medellín, Bogotá, Cali.  
+
+¿Qué restricciones se aplican al campo salario en la tabla EMPLEADO?  
+CHECK (salario > 0).  
+
+¿Qué significa que una clave primaria sea compuesta?  
+Que se forma con más de un campo (ej. PRIMARY KEY(snro, pnro)).  
+
+¿Cómo se define una clave foránea hacia una clave primaria compuesta?  
+FOREIGN KEY(cf_snro, cf_pnro) REFERENCES envio(snro, pnro).  
+
