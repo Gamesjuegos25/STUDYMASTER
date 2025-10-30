@@ -1,0 +1,14 @@
+{
+  "fileName": "preguntas_ejemplo",
+  "currentIndex": 5,
+  "difficultQuestions": [2, 7, 9],
+  "studyStats": {
+    "questionsAnswered": 12,
+    "correctAnswers": 0,
+    "sessionTime": 0,
+    "startTime": "2025-10-29T10:30:00.000Z"
+  },
+  "questionsHash": "1234567890",
+  "saveDate": "2025-10-29T10:45:30.000Z",
+  "exportVersion": "1.0"
+}
