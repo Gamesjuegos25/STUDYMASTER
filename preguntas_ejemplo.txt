@@ -1,0 +1,29 @@
+¿Cuál es la capital de Francia?
+París
+
+¿Qué es HTML?
+HyperText Markup Language - lenguaje de marcado para crear páginas web
+
+¿Cuántos continentes hay?
+7 continentes: África, América del Norte, América del Sur, Antártida, Asia, Europa y Oceanía
+
+¿Qué significa CSS?
+Cascading Style Sheets - hojas de estilo en cascada para diseñar páginas web
+
+¿Cuál es el planeta más grande del sistema solar?
+Júpiter
+
+¿Qué es JavaScript?
+Lenguaje de programación usado principalmente para desarrollo web
+
+¿En qué año llegó el hombre a la luna?
+1969
+
+¿Cuál es la fórmula del agua?
+H2O
+
+¿Qué es una variable en programación?
+Un espacio en memoria que almacena datos que pueden cambiar durante la ejecución del programa
+
+¿Cuál es el océano más grande?
+Océano Pacífico
