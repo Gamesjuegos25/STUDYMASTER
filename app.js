@@ -20,7 +20,8 @@ let gameData = {
     sessionStartTime: null
 };
 
-let questions = [];
+let questions = []; // preguntas activas para la sesión
+let allQuestions = []; // todas las preguntas parseadas (con su estado)
 let currentIndex = 0;
 let answerVisible = false;
 let isProcessingFile = false;
@@ -32,6 +33,22 @@ document.addEventListener('DOMContentLoaded', function() {
     updateGameStats();
     setupFileUpload();
     autoLoadQuestions(); // Cargar preguntas automáticamente
+});
+
+// Menu dropdown control
+function toggleMenu() {
+    const d = document.getElementById('menuDropdown');
+    if (!d) return;
+    d.classList.toggle('hidden');
+}
+// Close menu when clicking outside
+document.addEventListener('click', function(e) {
+    const d = document.getElementById('menuDropdown');
+    const b = document.getElementById('menuBtn');
+    if (!d || !b) return;
+    if (d.classList.contains('hidden')) return;
+    if (e.target === b || b.contains(e.target) || d.contains(e.target)) return;
+    d.classList.add('hidden');
 });
 
 // Sistema de archivos
@@ -94,14 +111,15 @@ function autoLoadQuestions() {
             console.log('✅ Archivo estudioBD.txt cargado exitosamente');
             console.log('📄 Contenido:', content.substring(0, 100) + '...');
             
-            questions = parseQuestions(content);
-            console.log('❓ Preguntas parseadas:', questions.length);
+            allQuestions = parseQuestions(content);
+            // No asignamos aún a `questions` hasta que el usuario elija filtros
+            console.log('❓ Preguntas parseadas:', allQuestions.length);
             
-            if (questions.length > 0) {
-                // Ocultar área de carga y mostrar botón para empezar
-                document.getElementById('fileUpload').style.display = 'none';
-                showStartButton();
-            } else {
+                if (allQuestions.length > 0) {
+                    // Ocultar área de carga y mostrar botón para empezar
+                    document.getElementById('fileUpload').style.display = 'none';
+                    showStartButton();
+                } else {
                 console.log('⚠️ No se encontraron preguntas válidas, mostrando carga manual');
             }
         })
@@ -119,14 +137,17 @@ function showStartButton() {
     // Renderizar botón de inicio en el área superior
     startArea.innerHTML = `
         <div class="start-area">
-            <button class="start-btn" onclick="startStudySession()">🚀 ¡Comenzar Estudio! (${questions.length})</button>
+            <button class="start-btn" onclick="startStudySession()">🚀 ¡Comenzar Estudio! (${allQuestions.length})</button>
         </div>
-        <div style="text-align:center; margin-top:8px; color:#666;">📚 ${questions.length} preguntas cargadas</div>
+        <div style="text-align:center; margin-top:8px; color:#666;">📚 ${allQuestions.length} preguntas cargadas</div>
         
     `;
 
     startArea.style.display = 'block';
     fileUpload.style.display = 'none';
+    // Mostrar controles de filtro si existen
+    const filterArea = document.getElementById('filterArea');
+    if (filterArea) filterArea.style.display = 'block';
 }
 
 function showManualUpload() {
@@ -171,10 +192,10 @@ function handleFile(file) {
     reader.onload = function(e) {
         console.log('📖 Contenido leído, longitud:', e.target.result.length);
         const content = e.target.result;
-        questions = parseQuestions(content);
-        console.log('❓ Preguntas parseadas:', questions.length);
+        allQuestions = parseQuestions(content);
+        console.log('❓ Preguntas parseadas:', allQuestions.length);
         
-        if (questions.length > 0) {
+        if (allQuestions.length > 0) {
             // Mostrar el botón de inicio en lugar de arrancar la sesión automáticamente
             showStartButton();
         } else {
@@ -260,14 +281,53 @@ function parseQuestions(text) {
     if (parsedQuestions.length === 0) {
         showMessage('❌ No se encontraron preguntas válidas en el archivo', 'error');
     }
-    
+    // Aplicar estados guardados (si existen)
+    try {
+        const savedMap = window.__studymaster_saved_question_status_map || JSON.parse(localStorage.getItem('studymaster_question_status') || '{}');
+        parsedQuestions.forEach(q => {
+            if (q && q.question && savedMap[q.question]) {
+                q.status = savedMap[q.question];
+            } else {
+                q.status = null;
+            }
+        });
+    } catch (err) {
+        console.warn('No se pudieron aplicar estados guardados:', err);
+    }
+
     return parsedQuestions;
 }
 
-function startStudySession() {
-    if (questions.length === 0) {
+function startStudySession(selectedStatuses = []) {
+    // selectedStatuses: array of strings or a single status string. 'ALL' or empty -> all questions
+    // Si no hay `allQuestions` cargadas, error
+    if (!allQuestions || allQuestions.length === 0) {
         showMessage('❌ No se encontraron preguntas válidas', 'error');
-        isProcessingFile = false; // Resetear si no hay preguntas
+        isProcessingFile = false;
+        return;
+    }
+
+    // Filtrar según selección
+    // Normalize input
+    let filterArray = [];
+    if (typeof selectedStatuses === 'string') {
+        if (selectedStatuses === 'ALL' || selectedStatuses === '') {
+            filterArray = [];
+        } else {
+            filterArray = [selectedStatuses];
+        }
+    } else if (Array.isArray(selectedStatuses)) {
+        filterArray = selectedStatuses;
+    }
+
+    if (!Array.isArray(filterArray) || filterArray.length === 0) {
+        questions = [...allQuestions];
+    } else {
+        questions = allQuestions.filter(q => filterArray.includes(q.status));
+    }
+
+    if (questions.length === 0) {
+        showMessage('⚠️ No hay preguntas con el/los estado(s) seleccionado(s)', 'warning');
         return;
     }
 
@@ -275,19 +335,25 @@ function startStudySession() {
     currentIndex = 0;
     answerVisible = false;
     isProcessingFile = false; // Procesamiento completado exitosamente
-    
+
     document.getElementById('fileUpload').style.display = 'none';
     const startArea = document.getElementById('startArea');
     if (startArea) { startArea.innerHTML = ''; startArea.style.display = 'none'; }
     document.getElementById('progressContainer').style.display = 'block';
     document.getElementById('questionCard').style.display = 'block';
-    
+
     showQuestion();
-    showMessage(`📚 ¡${questions.length} preguntas cargadas!`, 'success');
-    
+    showMessage(`📚 ¡${questions.length} preguntas cargadas para estudiar!`, 'success');
+
     // Resetear input para evitar eventos duplicados
     const fileInput = document.getElementById('fileInput');
     if (fileInput) fileInput.value = '';
+}
+
+function startStudySessionFromMenu() {
+    const sel = document.getElementById('studyStatusSelect');
+    const val = sel ? sel.value : 'ALL';
+    startStudySession(val === 'ALL' ? [] : val);
 }
 
 function showQuestion() {
@@ -308,6 +374,11 @@ function showQuestion() {
     questionEvaluated = false; // Resetear para nueva pregunta
     updateProgress();
 }
+
+// Renderizar lista de preguntas cargadas
+// renderQuestionsList removed
+
+// quick-filter and status counters removed
 
 function showAnswer() {
     const question = questions[currentIndex];
@@ -348,6 +419,8 @@ function evaluateAnswer(evaluation) {
             gameData.streak++;
             gameData.comboCount++;
             message = `Perfect +${basePoints} pts ⭐`;
+            // Marcar estado de la pregunta
+            if (questions[currentIndex]) questions[currentIndex].status = 'PERFECTA';
             break;
             
         case true:
@@ -357,6 +430,7 @@ function evaluateAnswer(evaluation) {
             gameData.streak++;
             gameData.comboCount++;
             message = `Correcto +${basePoints} pts ✅`;
+            if (questions[currentIndex]) questions[currentIndex].status = 'CORRECTA';
             break;
             
         case 'partial':
@@ -366,6 +440,7 @@ function evaluateAnswer(evaluation) {
             gameData.streak++;
             gameData.comboCount++;
             message = `Parcial +${basePoints} pts ⚡`;
+            if (questions[currentIndex]) questions[currentIndex].status = 'PARCIAL';
             break;
             
         case false:
@@ -376,6 +451,7 @@ function evaluateAnswer(evaluation) {
             gameData.comboCount = 0; // Romper combo
             gameData.lives--; // Perder vida
             message = `Incorrecto -10 pts 😢 (Vida perdida)`;
+            if (questions[currentIndex]) questions[currentIndex].status = 'INCORRECTA';
             break;
             
         case 'skip':
@@ -396,6 +472,17 @@ function evaluateAnswer(evaluation) {
             gameData.lives -= 2; // Perder 2 vidas por no recordar
             message = `No Recuerdo -50 pts 😵 (2 Vidas perdidas)`;
             break;
+    }
+
+    // Propagar el estado al conjunto completo de preguntas para persistencia
+    try {
+        const q = questions[currentIndex];
+        if (q && q.status && allQuestions && allQuestions.length > 0) {
+            const ai = allQuestions.findIndex(a => a.question === q.question);
+            if (ai >= 0) allQuestions[ai].status = q.status;
+        }
+    } catch (err) {
+        console.warn('No se pudo propagar estado a allQuestions:', err);
     }
 
     // Aplicar multiplicador de combo para respuestas positivas
@@ -545,10 +632,122 @@ function saveGameData() {
     
     try {
         localStorage.setItem('studymaster_game_data', JSON.stringify(gameData));
+        showSavedBadge();
+        // Guardar estados de preguntas también
+        try {
+            const statusMap = {};
+            // Preferir allQuestions si existe, sino preguntas activas
+            const source = (allQuestions && allQuestions.length > 0) ? allQuestions : questions;
+            source.forEach(q => {
+                if (q && q.question) statusMap[q.question] = q.status || null;
+            });
+            localStorage.setItem('studymaster_question_status', JSON.stringify(statusMap));
+        } catch (err) {
+            console.warn('Error guardando estados de preguntas:', err);
+        }
     } catch (e) {
         console.log('Error guardando datos:', e);
     }
 }
+
+// Mostrar badge pequeño de "Guardado" cuando se guarda el progreso
+function showSavedBadge() {
+    const badge = document.getElementById('savedBadge');
+    if (!badge) return;
+    badge.style.display = 'inline-block';
+    setTimeout(() => {
+        badge.style.opacity = '1';
+    }, 10);
+    // Ocultar después de 2.5s
+    setTimeout(() => {
+        badge.style.transition = 'opacity 300ms ease';
+        badge.style.opacity = '0';
+        setTimeout(() => { badge.style.display = 'none'; badge.style.opacity = ''; badge.style.transition = ''; }, 320);
+    }, 2500);
+}
+
+// Exportar progreso a archivo JSON descargable
+function exportGameData() {
+    try {
+        // Incluir también estados de preguntas
+        const statusMap = JSON.parse(localStorage.getItem('studymaster_question_status') || '{}');
+        const payload = { gameData: gameData, question_status: statusMap };
+        const dataStr = JSON.stringify(payload, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'studymaster_progress.json';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        showMessage('📤 Progreso exportado', 'success');
+    } catch (e) {
+        console.error('Error exportando progreso:', e);
+        showMessage('❌ Error exportando progreso', 'error');
+    }
+}
+
+// Importar progreso desde archivo JSON
+function importGameData(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+    if (!file.name.endsWith('.json')) {
+        showMessage('❌ Selecciona un archivo .json válido', 'error');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const imported = JSON.parse(e.target.result);
+            // Soportar dos formatos:
+            // - objeto con { gameData, question_status }
+            // - solo gameData (compatibilidad)
+            if (!imported || typeof imported !== 'object') throw new Error('Formato inválido');
+            if (imported.gameData) {
+                gameData = { ...gameData, ...imported.gameData };
+            } else {
+                gameData = { ...gameData, ...imported };
+            }
+
+            // Importar estados de preguntas si vienen
+            if (imported.question_status) {
+                localStorage.setItem('studymaster_question_status', JSON.stringify(imported.question_status));
+                // Aplicar inmediatamente a allQuestions si ya cargadas
+                try {
+                    const map = imported.question_status;
+                    if (allQuestions && allQuestions.length > 0) {
+                        allQuestions.forEach(q => { if (q && q.question && map[q.question]) q.status = map[q.question]; });
+                    }
+                } catch (err) {
+                    console.warn('No se pudieron aplicar estados importados a preguntas cargadas:', err);
+                }
+            }
+            // Normalizar algunos campos
+            gameData.points = isNaN(gameData.points) ? 0 : gameData.points;
+            gameData.level = isNaN(gameData.level) ? 1 : gameData.level;
+            gameData.lives = isNaN(gameData.lives) ? 5 : gameData.lives;
+
+            saveGameData();
+            updateGameStats();
+            showMessage('📥 Progreso importado correctamente', 'success');
+        } catch (err) {
+            console.error('Error importando progreso:', err);
+            showMessage('❌ Error importando progreso (archivo inválido)', 'error');
+        }
+    };
+    reader.onerror = function() {
+        showMessage('❌ Error leyendo el archivo', 'error');
+    };
+    reader.readAsText(file, 'UTF-8');
+    // Reset input value so the same file can be reimported if needed
+    event.target.value = '';
+}
+
+window.exportGameData = exportGameData;
+window.importGameData = importGameData;
 
 function loadGameData() {
     const saved = localStorage.getItem('studymaster_game_data');
@@ -570,6 +769,19 @@ function loadGameData() {
             gameData.points = 0;
             gameData.experience = 0;
             gameData.level = 1;
+        }
+    }
+
+    // Cargar estados de preguntas si existen
+    const savedStatuses = localStorage.getItem('studymaster_question_status');
+    if (savedStatuses) {
+        try {
+            const map = JSON.parse(savedStatuses);
+            // Si ya tenemos allQuestions (por carga de archivo), aplicarlos cuando parseQuestions corra.
+            // Guardamos en una variable global para uso en parseQuestions
+            window.__studymaster_saved_question_status_map = map;
+        } catch (err) {
+            console.warn('Error leyendo estados guardados:', err);
         }
     }
 }

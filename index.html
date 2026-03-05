@@ -17,6 +17,25 @@
             <div class="logo">
                 <h1>🎮 StudyMaster</h1>
             </div>
+            <div class="top-menu">
+                <button id="menuBtn" class="menu-btn" onclick="toggleMenu()">☰ Opciones</button>
+                <div id="menuDropdown" class="menu-dropdown hidden">
+                    <label style="font-weight:700; padding:6px 4px;">Seleccionar estado a estudiar</label>
+                    <select id="studyStatusSelect" style="padding:8px; border-radius:8px;">
+                        <option value="ALL">Todas</option>
+                        <option value="PERFECTA">PERFECTA</option>
+                        <option value="CORRECTA">CORRECTA</option>
+                        <option value="PARCIAL">PARCIAL</option>
+                        <option value="INCORRECTA">INCORRECTA</option>
+                    </select>
+                    <button onclick="startStudySessionFromMenu()" style="margin-top:6px;">🚀 Empezar con estado</button>
+                    <hr style="margin:8px 0; border:none; border-top:1px solid rgba(0,0,0,0.06);">
+                    <button onclick="showResetConfirmation()">🔄 Reiniciar Progreso</button>
+                    <button onclick="document.getElementById('fileInput').click()">📁 Seleccionar Archivo .txt</button>
+                    <button onclick="exportGameData()">💾 Exportar Progreso</button>
+                    <button onclick="document.getElementById('importInput').click()">📂 Importar Progreso</button>
+                </div>
+            </div>
         </div>
 
         <!-- Sistema de puntos gamificado -->
@@ -49,17 +68,9 @@
             </div>
         </div>
 
-        <!-- Botón de Reinicio -->
-        <div class="reset-section">
-            <button class="reset-btn" id="resetBtn" onclick="showResetConfirmation()">
-                <span class="reset-icon">🔄</span>
-                <span class="reset-text">Reiniciar Progreso</span>
-            </button>
-             <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
-                📁 Seleccionar Archivo .txt
-            </button>
-            <input type="file" id="fileInput" accept=".txt" style="display: none;">
-        </div>
+        <input type="file" id="fileInput" accept=".txt" style="display: none;">
+        <input type="file" id="importInput" accept="application/json" style="display: none;" onchange="importGameData(event)">
+        <span id="savedBadge" style="display:none; margin-left:10px; background:#28a745; color:#fff; padding:4px 8px; border-radius:12px; font-size:12px;">Guardado</span>
 
         <!-- Barra de progreso -->
         <div class="progress-container" id="progressContainer" style="display: none;">
@@ -68,63 +79,61 @@
 
         <!-- Área para botón de inicio (se muestra cuando hay preguntas cargadas) -->
         <div id="startArea" style="display:none; margin-bottom:20px; text-align:center;"></div>
+        
+            <!-- Main layout: contenido principal + barra lateral -->
+            <div class="main-layout">
+                <main class="main-content">
+                    <!-- Barra de progreso -->
+                    <div class="progress-container" id="progressContainer" style="display: none;">
+                        <div class="progress-bar" id="progressFill"></div>
+                    </div>
 
-        <!-- Área de carga de archivos -->
-        <div class="file-upload" id="fileUpload">
-            <span class="upload-icon">📚</span>
-            <div class="upload-title">Sube tu archivo de estudio</div>
-            <div class="upload-subtitle">Arrastra y suelta un archivo .txt o haz clic para seleccionar</div>
-           
-        </div>
+                    <!-- Área para botón de inicio (se muestra cuando hay preguntas cargadas) -->
+                    <div id="startArea" style="display:none; margin-bottom:20px; text-align:center;"></div>
 
-        <!-- Tarjeta de pregunta -->
-        <div class="question-card" id="questionCard">
-            <div class="question-header">
-                <div class="question-number" id="questionNumber">Pregunta 1 de 10</div>
-            </div>
-            <div class="question-text" id="questionText">
-                <!-- La pregunta se mostrará aquí -->
-            </div>
-            <div class="answer-text" id="answerText">
-                <!-- La respuesta se mostrará aquí -->
-            </div>
-            
-            <div class="evaluation-buttons" id="evaluationButtons" style="display: none;">
-                <button class="eval-btn perfect" onclick="evaluateAnswer('perfect')">
-                    ⭐ Perfect
-                    <small>+50 pts</small>
-                </button>
-                <button class="eval-btn correct" onclick="evaluateAnswer(true)">
-                    ✅ Correcto
-                    <small>+20 pts</small>
-                </button>
-                <button class="eval-btn partial" onclick="evaluateAnswer('partial')">
-                    ⚡ Parcial
-                    <small>+10 pts</small>
-                </button>
-                <button class="eval-btn incorrect" onclick="evaluateAnswer(false)">
-                    ❌ Incorrecto
-                    <small>-10 pts</small>
-                </button>
-                <button class="eval-btn skip" onclick="evaluateAnswer('skip')">
-                    ⏭️ Saltar
-                    <small>-5 pts</small>
-                </button>
-                <button class="eval-btn no-recuerdo" onclick="evaluateAnswer('no_recuerdo')">
-                    😵 No Recuerdo
-                    <small>-50 pts</small>
-                </button>
-            </div>
+                    <!-- Área de carga de archivos (principal) -->
+                    <div class="file-upload" id="fileUpload">
+                        <span class="upload-icon">📚</span>
+                        <div class="upload-title">Sube tu archivo de estudio</div>
+                        <div class="upload-subtitle">Arrastra y suelta un archivo .txt o haz clic para seleccionar</div>
+                    </div>
 
-            <div class="navigation">
-                <button class="nav-btn" id="showAnswerBtn" onclick="showAnswer()">
-                    👁️ Ver Respuesta
-                </button>
-                <button class="nav-btn" id="nextBtn" onclick="nextQuestion()" style="display: none;">
-                    ➡️ Siguiente
-                </button>
+                    <!-- Tarjeta de pregunta -->
+                    <div class="question-card" id="questionCard">
+                        <div class="question-header">
+                            <div class="question-number" id="questionNumber">Pregunta 1 de 10</div>
+                        </div>
+                        <div class="question-text" id="questionText"></div>
+                        <div class="answer-text" id="answerText"></div>
+
+                        <div class="evaluation-buttons" id="evaluationButtons" style="display: none;">
+                            <button class="eval-btn perfect" onclick="evaluateAnswer('perfect')">⭐ Perfect<small>+50 pts</small></button>
+                            <button class="eval-btn correct" onclick="evaluateAnswer(true)">✅ Correcto<small>+20 pts</small></button>
+                            <button class="eval-btn partial" onclick="evaluateAnswer('partial')">⚡ Parcial<small>+10 pts</small></button>
+                            <button class="eval-btn incorrect" onclick="evaluateAnswer(false)">❌ Incorrecto<small>-10 pts</small></button>
+                            <button class="eval-btn skip" onclick="evaluateAnswer('skip')">⏭️ Saltar<small>-5 pts</small></button>
+                            <button class="eval-btn no-recuerdo" onclick="evaluateAnswer('no_recuerdo')">😵 No Recuerdo<small>-50 pts</small></button>
+                        </div>
+
+                        <div class="navigation">
+                            <button class="nav-btn" id="showAnswerBtn" onclick="showAnswer()">👁️ Ver Respuesta</button>
+                            <button class="nav-btn" id="nextBtn" onclick="nextQuestion()" style="display: none;">➡️ Siguiente</button>
+                        </div>
+                    </div>
+                </main>
+
+                <aside class="sidebar">
+                    <!-- Sidebar controls -->
+                    <div style="margin-bottom:12px;">
+                        <!-- start moved to menu -->
+                        <div style="font-size:0.9rem; color:#666;">Usa "Opciones → Empezar con estado"</div>
+                    </div>
+
+                    <!-- Export/Import buttons (sidebar) -->
+                    <!-- export/import moved to menu -->
+                </aside>
             </div>
-        </div>
+        <!-- removed duplicate filters/list and duplicate question card; main layout contains the UI -->
     </div>
 
     <script src="app.js" defer></script>
