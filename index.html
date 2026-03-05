@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ff69b4">
+    <title>StudyMaster - Gamificado</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <h1>🎮 StudyMaster</h1>
+            </div>
+        </div>
+
+        <!-- Sistema de puntos gamificado -->
+        <div class="game-stats">
+            <div class="stat-card level">
+                <span class="stat-icon">🎯</span>
+                <div class="stat-value" id="levelDisplay">1</div>
+                <div class="stat-label">Nivel</div>
+            </div>
+            <div class="stat-card points">
+                <span class="stat-icon">💎</span>
+                <div class="stat-value" id="pointsDisplay">0</div>
+                <div class="stat-label">Puntos</div>
+            </div>
+            <div class="stat-card streak">
+                <span class="stat-icon">🔥</span>
+                <div class="stat-value" id="streakDisplay">0</div>
+                <div class="stat-label">Racha</div>
+            </div>
+            <div class="stat-card accuracy">
+                <span class="stat-icon">📊</span>
+                <div class="stat-value" id="accuracyDisplay">0%</div>
+                <div class="stat-label">Precisión</div>
+            </div>
+            <div class="stat-card lives">
+                <span class="stat-icon">❤️</span>
+                <div class="stat-value" id="livesDisplay">5</div>
+                <div class="stat-label">Vidas</div>
+                <div class="lives-visual" id="livesVisual">❤️❤️❤️❤️❤️</div>
+            </div>
+        </div>
+
+        <!-- Botón de Reinicio -->
+        <div class="reset-section">
+            <button class="reset-btn" id="resetBtn" onclick="showResetConfirmation()">
+                <span class="reset-icon">🔄</span>
+                <span class="reset-text">Reiniciar Progreso</span>
+            </button>
+             <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                📁 Seleccionar Archivo .txt
+            </button>
+            <input type="file" id="fileInput" accept=".txt" style="display: none;">
+        </div>
+
+        <!-- Barra de progreso -->
+        <div class="progress-container" id="progressContainer" style="display: none;">
+            <div class="progress-bar" id="progressFill"></div>
+        </div>
+
+        <!-- Área para botón de inicio (se muestra cuando hay preguntas cargadas) -->
+        <div id="startArea" style="display:none; margin-bottom:20px; text-align:center;"></div>
+
+        <!-- Área de carga de archivos -->
+        <div class="file-upload" id="fileUpload">
+            <span class="upload-icon">📚</span>
+            <div class="upload-title">Sube tu archivo de estudio</div>
+            <div class="upload-subtitle">Arrastra y suelta un archivo .txt o haz clic para seleccionar</div>
+           
+        </div>
+
+        <!-- Tarjeta de pregunta -->
+        <div class="question-card" id="questionCard">
+            <div class="question-header">
+                <div class="question-number" id="questionNumber">Pregunta 1 de 10</div>
+            </div>
+            <div class="question-text" id="questionText">
+                <!-- La pregunta se mostrará aquí -->
+            </div>
+            <div class="answer-text" id="answerText">
+                <!-- La respuesta se mostrará aquí -->
+            </div>
+            
+            <div class="evaluation-buttons" id="evaluationButtons" style="display: none;">
+                <button class="eval-btn perfect" onclick="evaluateAnswer('perfect')">
+                    ⭐ Perfect
+                    <small>+50 pts</small>
+                </button>
+                <button class="eval-btn correct" onclick="evaluateAnswer(true)">
+                    ✅ Correcto
+                    <small>+20 pts</small>
+                </button>
+                <button class="eval-btn partial" onclick="evaluateAnswer('partial')">
+                    ⚡ Parcial
+                    <small>+10 pts</small>
+                </button>
+                <button class="eval-btn incorrect" onclick="evaluateAnswer(false)">
+                    ❌ Incorrecto
+                    <small>-10 pts</small>
+                </button>
+                <button class="eval-btn skip" onclick="evaluateAnswer('skip')">
+                    ⏭️ Saltar
+                    <small>-5 pts</small>
+                </button>
+                <button class="eval-btn no-recuerdo" onclick="evaluateAnswer('no_recuerdo')">
+                    😵 No Recuerdo
+                    <small>-50 pts</small>
+                </button>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-btn" id="showAnswerBtn" onclick="showAnswer()">
+                    👁️ Ver Respuesta
+                </button>
+                <button class="nav-btn" id="nextBtn" onclick="nextQuestion()" style="display: none;">
+                    ➡️ Siguiente
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js" defer></script>
+</body>
+</html>
