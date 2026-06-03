@@ -1,534 +1,862 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#e91e63">
-<title>StudyMaster 🎮</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#e91e63">
+    <title>StudyMaster 🎮</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
 :root {
-    --pink:#e91e63; --pink-dark:#ad1457; --pink-light:#f48fb1;
-    --purple:#7c3aed; --purple-dark:#5b21b6;
-    --gold:#f59e0b; --green:#10b981; --red:#ef4444; --orange:#f97316; --blue:#3b82f6;
-    --text:#1e1b4b; --text-muted:#6b7280;
-    --border:rgba(233,30,99,0.12);
-    --shadow-lg:0 12px 40px rgba(124,58,237,0.15);
+    --pink: #e91e63;
+    --pink-dark: #ad1457;
+    --pink-light: #f48fb1;
+    --purple: #7c3aed;
+    --purple-dark: #5b21b6;
+    --gold: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --orange: #f97316;
+    --blue: #3b82f6;
+    --bg: #fff0f6;
+    --card: #ffffff;
+    --text: #1e1b4b;
+    --text-muted: #6b7280;
+    --border: rgba(233,30,99,0.12);
+    --shadow: 0 4px 24px rgba(233,30,99,0.10);
+    --shadow-lg: 0 12px 40px rgba(124,58,237,0.15);
+    --radius: 16px;
+
+    /* Modo activo */
+    --mode-color: var(--purple);
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#fce4ec 0%,#f3e5f5 50%,#e8eaf6 100%);min-height:100vh;padding:16px 10px 48px;}
-.container{max-width:820px;margin:0 auto;background:rgba(255,255,255,0.97);border-radius:28px;padding:28px 28px 40px;box-shadow:var(--shadow-lg);border:1.5px solid var(--border);}
 
-/* HEADER */
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
-.logo{display:flex;align-items:center;gap:10px;}
-.logo-icon{font-size:2rem;}
-.logo h1{font-family:'Space Mono',monospace;font-size:1.5rem;font-weight:700;background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* MENU */
-.top-menu{position:relative;}
-.menu-btn{background:linear-gradient(135deg,var(--pink),var(--pink-dark));color:#fff;border:none;padding:9px 16px;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.9rem;cursor:pointer;box-shadow:0 4px 14px rgba(233,30,99,0.35);transition:transform 0.15s;}
-.menu-btn:hover{transform:translateY(-2px);}
-.menu-dropdown{position:absolute;right:0;top:44px;background:#fff;border-radius:16px;box-shadow:0 8px 36px rgba(0,0,0,0.14);padding:10px;display:flex;flex-direction:column;gap:4px;min-width:230px;z-index:100;border:1.5px solid var(--border);animation:dropIn 0.18s ease;}
-@keyframes dropIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
-.menu-section-label{font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-muted);padding:6px 8px 2px;}
-.menu-item{text-align:left;padding:9px 12px;border:none;background:transparent;cursor:pointer;border-radius:10px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;color:var(--text);transition:background 0.15s;}
-.menu-item:hover{background:rgba(233,30,99,0.07);}
-.menu-item.format-item{color:var(--purple);}
-.menu-item.format-item:hover{background:rgba(124,58,237,0.07);}
-.menu-item.danger-item{color:var(--red);}
-.menu-item.danger-item:hover{background:rgba(239,68,68,0.07);}
-.menu-divider{height:1px;background:rgba(0,0,0,0.06);margin:4px 0;}
-.hidden{display:none!important;}
-
-/* STATS */
-.game-stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
-.stat-card{flex:1;min-width:68px;border-radius:14px;padding:10px 8px 8px;text-align:center;border:1.5px solid rgba(255,255,255,0.3);transition:transform 0.2s;}
-.stat-card:hover{transform:translateY(-3px);}
-.level-card{background:linear-gradient(135deg,#fce4ec,#f8bbd0);box-shadow:0 6px 20px rgba(233,30,99,0.15);}
-.points-card{background:linear-gradient(135deg,#ede7f6,#d1c4e9);box-shadow:0 6px 20px rgba(124,58,237,0.15);}
-.streak-card{background:linear-gradient(135deg,#fff8e1,#ffe082);box-shadow:0 6px 20px rgba(245,158,11,0.2);}
-.combo-card{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);box-shadow:0 6px 20px rgba(16,185,129,0.2);}
-.accuracy-card{background:linear-gradient(135deg,#e3f2fd,#bbdefb);box-shadow:0 6px 20px rgba(33,150,243,0.15);}
-.lives-card{background:linear-gradient(135deg,#ffebee,#ffcdd2);box-shadow:0 6px 20px rgba(239,68,68,0.25);}
-.stat-icon{font-size:1.3rem;display:block;margin-bottom:2px;}
-.stat-value{font-family:'Space Mono',monospace;font-size:1.05rem;font-weight:700;color:var(--text);}
-.stat-label{font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);margin-top:2px;}
-.lives-visual{font-size:0.65rem;margin-top:4px;letter-spacing:1px;}
-
-/* XP */
-.xp-bar-wrap{margin-bottom:16px;}
-.xp-bar-label{font-size:0.75rem;font-weight:700;color:var(--text-muted);margin-bottom:4px;display:flex;justify-content:space-between;}
-.xp-bar-track{height:8px;background:rgba(124,58,237,0.12);border-radius:8px;overflow:hidden;}
-.xp-bar-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--pink));border-radius:8px;transition:width 0.5s cubic-bezier(.22,1,.36,1);}
-
-/* STATUS COUNTERS */
-.status-counters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
-.status-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:0.78rem;font-weight:800;border:2px solid transparent;user-select:none;}
-.status-badge.total{background:#f1f5f9;color:#334155;border-color:#e2e8f0;}
-.status-badge.exacta{background:#f0fdf4;color:#10b981;border-color:#a7f3d0;}
-.status-badge.idea{background:#fffde7;color:#f59e0b;border-color:#fde68a;}
-.status-badge.perdido{background:#fef2f2;color:#ef4444;border-color:#fecaca;}
-.status-badge.nueva{background:#f5f3ff;color:#7c3aed;border-color:#ddd6fe;}
-
-/* PROGRESS */
-.progress-container{margin-bottom:16px;}
-.progress-info{display:flex;justify-content:space-between;font-size:0.78rem;font-weight:700;color:var(--text-muted);margin-bottom:5px;}
-.progress-track{height:10px;background:rgba(233,30,99,0.1);border-radius:10px;overflow:hidden;}
-.progress-fill{height:100%;border-radius:10px;transition:width 0.4s cubic-bezier(.22,1,.36,1);}
-body.mode-repaso .progress-fill{background:linear-gradient(90deg,#10b981,#059669);}
-body.mode-desafio .progress-fill{background:linear-gradient(90deg,#ef4444,#f97316);}
-.progress-fill{background:linear-gradient(90deg,var(--pink),var(--purple));}
-
-/* FILTER */
-.filter-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
-.filter-label{font-weight:800;font-size:0.88rem;color:var(--text-muted);white-space:nowrap;}
-.filter-select{flex:1;min-width:200px;padding:9px 12px;border-radius:12px;border:1.5px solid var(--border);font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;color:var(--text);background:#fafafa;outline:none;cursor:pointer;}
-
-/* ── PANTALLA INICIO ── */
-.home-screen{}
-
-/* Sesiones guardadas */
-.saved-sessions{margin-bottom:22px;}
-.saved-sessions-title{font-size:0.78rem;font-weight:800;text-transform:uppercase;letter-spacing:0.7px;color:var(--text-muted);margin-bottom:10px;}
-.session-list{display:flex;flex-direction:column;gap:8px;}
-.session-item{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.2s;}
-.session-item:hover{border-color:var(--purple);background:#f5f3ff;transform:translateX(4px);}
-.session-item-icon{font-size:1.6rem;flex-shrink:0;}
-.session-item-info{flex:1;min-width:0;}
-.session-item-name{font-weight:800;font-size:0.92rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.session-item-meta{font-size:0.75rem;font-weight:600;color:var(--text-muted);margin-top:2px;}
-.session-item-badges{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;}
-.session-mini-badge{font-size:0.68rem;font-weight:800;padding:2px 8px;border-radius:10px;}
-.session-mini-badge.exacta{background:#f0fdf4;color:#10b981;}
-.session-mini-badge.idea{background:#fffde7;color:#f59e0b;}
-.session-mini-badge.perdido{background:#fef2f2;color:#ef4444;}
-.session-mini-badge.nueva{background:#f5f3ff;color:#7c3aed;}
-.session-item-arrow{color:var(--text-muted);font-size:1.1rem;flex-shrink:0;}
-.session-delete-btn{background:none;border:none;cursor:pointer;font-size:1rem;padding:4px 6px;border-radius:8px;color:var(--text-muted);transition:background 0.15s;}
-.session-delete-btn:hover{background:#fef2f2;color:var(--red);}
-
-/* CONTINUE BANNER */
-.continue-banner{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #a7f3d0;border-radius:18px;padding:18px 20px;margin-bottom:18px;display:flex;align-items:center;gap:14px;}
-.continue-banner-icon{font-size:2rem;flex-shrink:0;}
-.continue-banner-info{flex:1;}
-.continue-banner-title{font-weight:900;font-size:0.95rem;color:#065f46;margin-bottom:3px;}
-.continue-banner-sub{font-size:0.78rem;font-weight:600;color:#166534;}
-.continue-banner-btns{display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap;}
-.btn-continue{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;padding:9px 16px;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.82rem;cursor:pointer;transition:all 0.2s;}
-.btn-continue:hover{transform:translateY(-2px);}
-.btn-new-session{background:#fff;color:var(--text);border:1.5px solid #e2e8f0;padding:9px 14px;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.82rem;cursor:pointer;transition:all 0.2s;}
-.btn-new-session:hover{border-color:var(--purple);color:var(--purple);}
-
-/* MODE SELECTOR */
-.mode-selector{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:8px;}
-.mode-card{border-radius:22px;padding:26px 22px;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;border:2.5px solid transparent;user-select:none;}
-.mode-card:hover{transform:translateY(-5px);}
-.mode-card:active{transform:scale(0.98);}
-.repaso-card{background:linear-gradient(140deg,#f0fdf4,#dcfce7,#d1fae5);border-color:rgba(16,185,129,0.25);box-shadow:0 8px 32px rgba(16,185,129,0.15);}
-.repaso-card:hover{box-shadow:0 16px 48px rgba(16,185,129,0.25);border-color:#10b981;}
-.desafio-card{background:linear-gradient(140deg,#fff1f2,#ffe4e6,#ffd6d8);border-color:rgba(239,68,68,0.25);box-shadow:0 8px 32px rgba(239,68,68,0.15);}
-.desafio-card:hover{box-shadow:0 16px 48px rgba(239,68,68,0.25);border-color:#ef4444;}
-.mode-icon{font-size:2.8rem;margin-bottom:10px;display:block;}
-.mode-title{font-family:'Space Mono',monospace;font-size:1.1rem;font-weight:700;margin-bottom:8px;}
-.repaso-card .mode-title{color:#065f46;}
-.desafio-card .mode-title{color:#991b1b;}
-.mode-desc{font-size:0.82rem;font-weight:600;line-height:1.55;margin-bottom:14px;}
-.repaso-card .mode-desc{color:#166534;}
-.desafio-card .mode-desc{color:#7f1d1d;}
-.mode-features{list-style:none;display:flex;flex-direction:column;gap:5px;margin-bottom:18px;}
-.mode-features li{font-size:0.8rem;font-weight:700;}
-.repaso-card .mode-features li{color:#047857;}
-.desafio-card .mode-features li{color:#b91c1c;}
-.mode-btn{display:block;text-align:center;padding:12px;border-radius:14px;font-family:'Space Mono',monospace;font-size:0.85rem;font-weight:700;transition:opacity 0.15s;}
-.repaso-btn{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,0.4);}
-.desafio-btn{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;box-shadow:0 4px 14px rgba(239,68,68,0.4);}
-
-/* MODE BADGE */
-.mode-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:20px;font-size:0.82rem;font-weight:800;margin-bottom:12px;}
-.mode-badge.badge-repaso{background:#f0fdf4;color:#065f46;border:1.5px solid #a7f3d0;}
-.mode-badge.badge-desafio{background:#fef2f2;color:#991b1b;border:1.5px solid #fecaca;}
-
-/* FILE UPLOAD */
-.file-upload{border:3px dashed var(--pink-light);border-radius:20px;padding:48px 24px;text-align:center;cursor:pointer;transition:all 0.3s;background:linear-gradient(135deg,rgba(233,30,99,0.04),rgba(124,58,237,0.04));margin-bottom:8px;}
-.file-upload:hover{border-color:var(--pink);transform:translateY(-3px);box-shadow:0 8px 30px rgba(233,30,99,0.12);}
-.upload-icon{font-size:3.5rem;display:block;margin-bottom:12px;}
-.upload-title{font-size:1.2rem;font-weight:800;color:var(--pink-dark);margin-bottom:6px;}
-.upload-subtitle{color:var(--text-muted);font-size:0.9rem;font-weight:600;margin-bottom:8px;}
-.upload-hint{font-size:0.78rem;color:var(--purple);font-weight:700;margin-top:10px;background:rgba(124,58,237,0.06);display:inline-block;padding:4px 12px;border-radius:20px;}
-
-/* QUESTION CARD */
-.question-card{background:#fff;border-radius:22px;padding:28px 28px 24px;box-shadow:var(--shadow-lg);border:1.5px solid var(--border);margin-bottom:16px;}
-.question-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:10px;flex-wrap:wrap;}
-.question-number{color:#fff;padding:6px 16px;border-radius:20px;font-weight:800;font-size:0.82rem;font-family:'Space Mono',monospace;}
-body.mode-repaso .question-number{background:linear-gradient(135deg,#10b981,#059669);}
-body.mode-desafio .question-number{background:linear-gradient(135deg,#ef4444,#b91c1c);}
-.question-number{background:linear-gradient(135deg,var(--pink),var(--purple));}
-.question-status-badge{font-size:0.78rem;font-weight:800;padding:4px 12px;border-radius:20px;display:none;}
-.question-status-badge.EXACTA{display:inline-block;background:#f0fdf4;color:#10b981;border:1.5px solid #a7f3d0;}
-.question-status-badge.IDEA{display:inline-block;background:#fffde7;color:#f59e0b;border:1.5px solid #fde68a;}
-.question-status-badge.PERDIDO{display:inline-block;background:#fef2f2;color:#ef4444;border:1.5px solid #fecaca;}
-.question-text{font-size:1.2rem;font-weight:700;color:var(--text);line-height:1.65;margin-bottom:20px;}
-.answer-text{background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border-radius:14px;padding:18px 20px;margin-bottom:22px;border-left:5px solid var(--green);font-size:1.05rem;font-weight:600;color:#065f46;line-height:1.6;animation:fadeSlideIn 0.3s ease;}
-@keyframes fadeSlideIn{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
-
-/* EVAL BUTTONS — nuevo sistema 3 estados */
-.evaluation-buttons{display:grid;gap:10px;margin-bottom:20px;animation:fadeSlideIn 0.25s ease;}
-/* Repaso: 3 botones grandes */
-#evalRepaso{grid-template-columns:repeat(3,1fr);}
-/* Desafío: 3 botones + fila saltar abajo */
-#evalDesafio{grid-template-columns:repeat(3,1fr);}
-
-.eval-btn{border:none;padding:18px 10px;border-radius:16px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.92rem;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:6px;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,0.12);touch-action:manipulation;-webkit-tap-highlight-color:transparent;min-height:70px;}
-.eval-btn small{font-size:0.72rem;opacity:0.88;font-weight:700;}
-.eval-btn .eval-desc{font-size:0.7rem;opacity:0.75;font-weight:600;text-align:center;line-height:1.3;}
-.eval-btn:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,0.18);}
-.eval-btn:active{transform:scale(0.97);}
-
-/* Colores nuevos estados */
-.eval-btn.exacta   {background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 4px 14px rgba(16,185,129,0.45);}
-.eval-btn.idea     {background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 4px 14px rgba(245,158,11,0.45);}
-.eval-btn.perdido  {background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 4px 14px rgba(239,68,68,0.45);}
-.eval-btn.skip     {background:linear-gradient(135deg,#6b7280,#4b5563);box-shadow:0 4px 14px rgba(107,114,128,0.35);}
-
-/* NAV BUTTONS */
-.navigation{display:flex;justify-content:space-between;align-items:center;gap:12px;}
-.nav-btn{border:none;padding:12px 24px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.9rem;cursor:pointer;transition:all 0.2s;touch-action:manipulation;min-height:44px;}
-.show-btn{background:linear-gradient(135deg,var(--purple),var(--purple-dark));color:#fff;box-shadow:0 4px 14px rgba(124,58,237,0.35);}
-.next-btn{background:linear-gradient(135deg,var(--pink),var(--pink-dark));color:#fff;box-shadow:0 4px 14px rgba(233,30,99,0.35);}
-.nav-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,0.2);}
-
-/* SESSION SUMMARY */
-.session-summary{background:linear-gradient(135deg,#f5f3ff,#fce7f3);border-radius:22px;padding:32px;text-align:center;border:2px solid var(--border);box-shadow:var(--shadow-lg);animation:fadeSlideIn 0.4s ease;}
-.session-summary h2{font-size:1.6rem;font-weight:900;color:var(--text);margin-bottom:6px;}
-.session-summary .sub{color:var(--text-muted);font-weight:600;margin-bottom:20px;font-size:0.9rem;}
-.summary-stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;}
-.summary-stat{background:#fff;border-radius:14px;padding:12px 18px;font-weight:800;font-size:0.88rem;color:var(--text);box-shadow:0 2px 10px rgba(0,0,0,0.07);}
-.summary-stat span{display:block;font-size:1.4rem;font-family:'Space Mono',monospace;margin-bottom:2px;}
-.summary-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-.restart-btn{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;border:none;padding:13px 28px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.95rem;cursor:pointer;box-shadow:0 6px 22px rgba(233,30,99,0.3);transition:all 0.2s;}
-.restart-btn:hover{transform:translateY(-3px);}
-.new-mode-btn{background:#f1f5f9;color:var(--text);border:none;padding:13px 28px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.95rem;cursor:pointer;transition:all 0.2s;}
-.new-mode-btn:hover{background:#e2e8f0;transform:translateY(-2px);}
-
-/* GAME OVER */
-.gameover-screen{background:linear-gradient(135deg,#1a0000,#3b0000);border-radius:22px;padding:48px 32px;text-align:center;box-shadow:0 20px 60px rgba(239,68,68,0.35);animation:gameoverIn 0.5s cubic-bezier(.22,1,.36,1);}
-@keyframes gameoverIn{from{opacity:0;transform:scale(0.8);}to{opacity:1;transform:scale(1);}}
-.go-skull{font-size:5rem;margin-bottom:16px;display:block;animation:shake 0.5s ease 0.3s;}
-@keyframes shake{0%,100%{transform:rotate(0deg);}25%{transform:rotate(-10deg);}75%{transform:rotate(10deg);}}
-.gameover-screen h2{font-family:'Space Mono',monospace;font-size:2rem;color:#ef4444;margin-bottom:10px;text-shadow:0 0 30px rgba(239,68,68,0.6);}
-.gameover-screen p{color:#fca5a5;font-weight:600;font-size:0.95rem;margin-bottom:24px;line-height:1.6;}
-.go-stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:28px;}
-.go-stat{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);border-radius:14px;padding:12px 18px;color:#fca5a5;font-weight:800;font-size:0.88rem;}
-.go-stat span{display:block;font-size:1.4rem;font-family:'Space Mono',monospace;color:#fff;margin-bottom:2px;}
-.go-retry-btn{background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;border:none;padding:14px 32px;border-radius:50px;font-family:'Space Mono',monospace;font-weight:700;font-size:1rem;cursor:pointer;box-shadow:0 6px 24px rgba(239,68,68,0.5);transition:all 0.2s;margin:0 6px;}
-.go-retry-btn:hover{transform:translateY(-3px);}
-.go-menu-btn{background:rgba(255,255,255,0.1);color:#fca5a5;border:1px solid rgba(239,68,68,0.3);padding:14px 32px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;transition:all 0.2s;margin:0 6px;}
-.go-menu-btn:hover{background:rgba(255,255,255,0.15);transform:translateY(-2px);}
-
-/* RESET MODAL */
-.reset-modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;justify-content:center;align-items:center;z-index:9999;backdrop-filter:blur(4px);}
-.reset-modal-content{background:linear-gradient(135deg,#fff,#fce4ec);padding:32px;border-radius:22px;text-align:center;max-width:400px;margin:20px;box-shadow:0 20px 60px rgba(0,0,0,0.25);border:1.5px solid var(--border);}
-.reset-modal-content h3{color:var(--pink-dark);margin-bottom:12px;font-size:1.2rem;}
-.reset-modal-content p{color:var(--text-muted);margin-bottom:12px;line-height:1.6;font-weight:600;}
-.reset-warning-icon{font-size:3rem;margin-bottom:10px;display:block;}
-.reset-detail-list{background:#f8fafc;border-radius:12px;padding:12px 14px;margin-bottom:14px;display:flex;flex-direction:column;gap:8px;text-align:left;}
-.reset-detail-item{display:flex;align-items:center;gap:8px;font-size:0.85rem;font-weight:600;color:var(--text);}
-.reset-detail-item span{flex:1;color:var(--text-muted);}
-.reset-detail-item strong{font-family:'Space Mono',monospace;font-size:0.82rem;}
-.reset-warning-text{font-size:0.8rem!important;color:#b91c1c!important;background:#fef2f2;border-radius:8px;padding:8px 12px;margin-bottom:18px!important;border:1px solid #fecaca;}
-.reset-modal-buttons{display:flex;gap:12px;justify-content:center;}
-.confirm-btn,.cancel-btn{padding:10px 22px;border:none;border-radius:14px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.9rem;cursor:pointer;transition:all 0.2s;}
-.confirm-btn{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;box-shadow:0 4px 14px rgba(239,68,68,0.3);}
-.cancel-btn{background:#f1f5f9;color:var(--text);}
-.confirm-btn:hover,.cancel-btn:hover{transform:translateY(-2px);}
-
-/* FORMAT MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;justify-content:center;align-items:center;z-index:9999;backdrop-filter:blur(4px);padding:16px;}
-.modal-content{background:#fff;border-radius:22px;padding:32px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.25);position:relative;animation:dropIn 0.2s ease;}
-.modal-close{position:absolute;top:16px;right:16px;background:#f1f5f9;border:none;width:32px;height:32px;border-radius:50%;font-size:0.9rem;cursor:pointer;font-weight:700;color:var(--text-muted);}
-.modal-close:hover{background:#e2e8f0;}
-.format-modal h2{font-size:1.3rem;font-weight:900;color:var(--text);margin-bottom:10px;}
-.modal-desc{color:var(--text-muted);font-weight:600;margin-bottom:18px;line-height:1.6;font-size:0.9rem;}
-.format-example{background:#1e1b4b;border-radius:14px;padding:18px;margin-bottom:18px;}
-.format-example-title{font-size:0.75rem;font-weight:800;text-transform:uppercase;color:#a78bfa;margin-bottom:10px;letter-spacing:0.7px;}
-.format-example pre{font-family:'Space Mono',monospace;font-size:0.78rem;color:#e0e7ff;line-height:1.7;white-space:pre-wrap;word-break:break-word;}
-.format-rules{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;}
-.rule-item{background:#f5f3ff;padding:9px 14px;border-radius:10px;font-size:0.85rem;font-weight:700;color:var(--purple);}
-.modal-ai-section{background:linear-gradient(135deg,#fce4ec,#f3e5f5);border-radius:14px;padding:20px;border:1.5px solid var(--border);}
-.modal-ai-section h3{font-size:1rem;font-weight:800;color:var(--text);margin-bottom:8px;}
-.modal-ai-section p{font-size:0.85rem;color:var(--text-muted);font-weight:600;line-height:1.6;margin-bottom:14px;}
-.modal-btn-row{display:flex;gap:10px;flex-wrap:wrap;}
-.modal-dl-btn{flex:1;min-width:140px;background:#fff;border:2px solid var(--border);padding:10px 14px;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.82rem;cursor:pointer;color:var(--text);transition:all 0.2s;text-align:center;}
-.modal-dl-btn:hover{border-color:var(--purple);color:var(--purple);transform:translateY(-2px);}
-.modal-dl-btn.accent{background:linear-gradient(135deg,var(--purple),var(--purple-dark));color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(124,58,237,0.3);}
-
-/* MESSAGE POPUP */
-.message-popup{position:fixed;top:24px;left:50%;transform:translateX(-50%);color:#fff;padding:13px 26px;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.92rem;z-index:9998;box-shadow:0 8px 28px rgba(0,0,0,0.2);animation:slideDown 0.25s ease;white-space:nowrap;max-width:88vw;text-align:center;}
-@keyframes slideDown{from{opacity:0;transform:translate(-50%,-16px);}to{opacity:1;transform:translate(-50%,0);}}
-
-/* RESET SUCCESS */
-.reset-success-alert{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#fff;border:1.5px solid #a7f3d0;border-radius:18px;padding:16px 20px;display:flex;align-items:flex-start;gap:14px;max-width:420px;width:calc(100% - 32px);box-shadow:0 12px 40px rgba(0,0,0,0.14);z-index:10000;animation:slideUp 0.3s cubic-bezier(.22,1,.36,1);}
-@keyframes slideUp{from{opacity:0;transform:translate(-50%,20px);}to{opacity:1;transform:translate(-50%,0);}}
-.rsa-icon{font-size:1.8rem;flex-shrink:0;margin-top:2px;}
-.rsa-content{flex:1;}
-.rsa-title{font-weight:900;font-size:0.95rem;color:#065f46;margin-bottom:4px;}
-.rsa-desc{font-size:0.8rem;font-weight:600;color:var(--text-muted);line-height:1.5;}
-.rsa-close{background:#f1f5f9;border:none;width:26px;height:26px;border-radius:50%;font-size:0.75rem;cursor:pointer;font-weight:700;color:var(--text-muted);flex-shrink:0;}
-.rsa-close:hover{background:#e2e8f0;}
-
-/* RESPONSIVE */
-@media(max-width:620px){
-    .container{padding:18px 16px 28px;border-radius:20px;}
-    .logo h1{font-size:1.2rem;}
-    .mode-selector{grid-template-columns:1fr;}
-    .game-stats{gap:6px;}
-    .stat-card{min-width:54px;padding:8px 5px 6px;}
-    .stat-value{font-size:0.9rem;}
-    #evalRepaso,#evalDesafio{grid-template-columns:1fr 1fr!important;}
-    .question-text{font-size:1.05rem;}
-    .modal-btn-row{flex-direction:column;}
-    .summary-actions{flex-direction:column;}
-    .go-retry-btn,.go-menu-btn{width:100%;margin:4px 0;}
-    .continue-banner{flex-direction:column;align-items:flex-start;}
-    .continue-banner-btns{width:100%;}
-    .btn-continue,.btn-new-session{flex:1;text-align:center;}
+body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 50%, #e8eaf6 100%);
+    min-height: 100vh;
+    padding: 16px 10px 48px;
 }
-</style>
+
+/* ─── CONTAINER ─── */
+.container {
+    max-width: 820px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.97);
+    border-radius: 28px;
+    padding: 28px 28px 40px;
+    box-shadow: var(--shadow-lg);
+    border: 1.5px solid var(--border);
+}
+
+/* ─── HEADER ─── */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-icon { font-size: 2rem; }
+.logo h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.5rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ─── MENU ─── */
+.top-menu { position: relative; }
+.menu-btn {
+    background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+    color: #fff; border: none; padding: 9px 16px;
+    border-radius: 12px; font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 0.9rem; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(233,30,99,0.35);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.menu-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(233,30,99,0.45); }
+
+.menu-dropdown {
+    position: absolute; right: 0; top: 44px;
+    background: #fff; border-radius: 16px;
+    box-shadow: 0 8px 36px rgba(0,0,0,0.14);
+    padding: 10px; display: flex; flex-direction: column; gap: 4px;
+    min-width: 230px; z-index: 100;
+    border: 1.5px solid var(--border);
+    animation: dropIn 0.18s ease;
+}
+@keyframes dropIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.menu-section-label {
+    font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.8px; color: var(--text-muted); padding: 6px 8px 2px;
+}
+.menu-item {
+    text-align: left; padding: 9px 12px; border: none; background: transparent;
+    cursor: pointer; border-radius: 10px; font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem; font-weight: 700; color: var(--text); transition: background 0.15s;
+}
+.menu-item:hover { background: rgba(233,30,99,0.07); }
+.menu-item.format-item { color: var(--purple); }
+.menu-item.format-item:hover { background: rgba(124,58,237,0.07); }
+.menu-item.danger-item { color: var(--red); }
+.menu-item.danger-item:hover { background: rgba(239,68,68,0.07); }
+.menu-divider { height: 1px; background: rgba(0,0,0,0.06); margin: 4px 0; }
+.hidden { display: none !important; }
+
+/* ─── STATS ─── */
+.game-stats { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.stat-card {
+    flex: 1; min-width: 68px; border-radius: 14px; padding: 10px 8px 8px;
+    text-align: center; border: 1.5px solid rgba(255,255,255,0.3);
+    transition: transform 0.2s; position: relative; overflow: hidden;
+}
+.stat-card:hover { transform: translateY(-3px); }
+.level-card    { background: linear-gradient(135deg,#fce4ec,#f8bbd0); box-shadow:0 6px 20px rgba(233,30,99,0.15); }
+.points-card   { background: linear-gradient(135deg,#ede7f6,#d1c4e9); box-shadow:0 6px 20px rgba(124,58,237,0.15); }
+.streak-card   { background: linear-gradient(135deg,#fff8e1,#ffe082); box-shadow:0 6px 20px rgba(245,158,11,0.2); }
+.combo-card    { background: linear-gradient(135deg,#e8f5e9,#c8e6c9); box-shadow:0 6px 20px rgba(16,185,129,0.2); }
+.accuracy-card { background: linear-gradient(135deg,#e3f2fd,#bbdefb); box-shadow:0 6px 20px rgba(33,150,243,0.15); }
+.lives-card    { background: linear-gradient(135deg,#ffebee,#ffcdd2); box-shadow:0 6px 20px rgba(239,68,68,0.25); }
+.stat-icon { font-size: 1.3rem; display: block; margin-bottom: 2px; }
+.stat-value { font-family: 'Space Mono', monospace; font-size: 1.05rem; font-weight: 700; color: var(--text); }
+.stat-label { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted); margin-top: 2px; }
+.lives-visual { font-size: 0.65rem; margin-top: 4px; letter-spacing: 1px; }
+
+/* ─── XP BAR ─── */
+.xp-bar-wrap { margin-bottom: 16px; }
+.xp-bar-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; display: flex; justify-content: space-between; }
+.xp-bar-track { height: 8px; background: rgba(124,58,237,0.12); border-radius: 8px; overflow: hidden; }
+.xp-bar-fill  { height: 100%; background: linear-gradient(90deg, var(--purple), var(--pink)); border-radius: 8px; transition: width 0.5s cubic-bezier(.22,1,.36,1); }
+
+/* ─── STATUS COUNTERS ─── */
+.status-counters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.status-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 12px; border-radius: 20px; font-size: 0.78rem;
+    font-weight: 800; border: 2px solid transparent; user-select: none;
+}
+.status-badge.total    { background:#f1f5f9; color:#334155; border-color:#e2e8f0; }
+.status-badge.perfecta { background:#fffde7; color:#f59e0b; border-color:#fde68a; }
+.status-badge.correcta { background:#f0fdf4; color:#10b981; border-color:#a7f3d0; }
+.status-badge.parcial  { background:#fff7ed; color:#f97316; border-color:#fed7aa; }
+.status-badge.incorrecta{background:#fef2f2; color:#ef4444; border-color:#fecaca; }
+.status-badge.nueva    { background:#f5f3ff; color:#7c3aed; border-color:#ddd6fe; }
+
+/* ─── PROGRESS ─── */
+.progress-container { margin-bottom: 16px; }
+.progress-info { display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); margin-bottom: 5px; }
+.progress-track { height: 10px; background: rgba(233,30,99,0.1); border-radius: 10px; overflow: hidden; }
+.progress-fill  { height: 100%; border-radius: 10px; transition: width 0.4s cubic-bezier(.22,1,.36,1); }
+/* El color de la barra cambia según el modo */
+body.mode-repaso  .progress-fill { background: linear-gradient(90deg,#10b981,#059669); }
+body.mode-desafio .progress-fill { background: linear-gradient(90deg,#ef4444,#f97316); }
+.progress-fill { background: linear-gradient(90deg, var(--pink), var(--purple)); }
+
+/* ─── FILTER ROW ─── */
+.filter-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 18px; flex-wrap: wrap;
+}
+.filter-label { font-weight: 800; font-size: 0.88rem; color: var(--text-muted); white-space: nowrap; }
+.filter-select {
+    flex: 1; min-width: 200px; padding: 9px 12px;
+    border-radius: 12px; border: 1.5px solid var(--border);
+    font-family: 'Nunito', sans-serif; font-size: 0.88rem;
+    font-weight: 700; color: var(--text); background: #fafafa; outline: none; cursor: pointer;
+}
+
+/* ═══════════════════════════════
+   SELECTOR DE MODO
+═══════════════════════════════ */
+.mode-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.mode-card {
+    border-radius: 22px;
+    padding: 26px 22px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2.5px solid transparent;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+}
+
+.mode-card:hover { transform: translateY(-5px); }
+.mode-card:active { transform: scale(0.98); }
+
+/* REPASO */
+.repaso-card {
+    background: linear-gradient(140deg, #f0fdf4 0%, #dcfce7 50%, #d1fae5 100%);
+    border-color: rgba(16,185,129,0.25);
+    box-shadow: 0 8px 32px rgba(16,185,129,0.15);
+}
+.repaso-card:hover { box-shadow: 0 16px 48px rgba(16,185,129,0.25); border-color: #10b981; }
+
+/* DESAFÍO */
+.desafio-card {
+    background: linear-gradient(140deg, #fff1f2 0%, #ffe4e6 50%, #ffd6d8 100%);
+    border-color: rgba(239,68,68,0.25);
+    box-shadow: 0 8px 32px rgba(239,68,68,0.15);
+}
+.desafio-card:hover { box-shadow: 0 16px 48px rgba(239,68,68,0.25); border-color: #ef4444; }
+
+.mode-icon { font-size: 2.8rem; margin-bottom: 10px; display: block; }
+.mode-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.1rem; font-weight: 700;
+    margin-bottom: 8px;
+}
+.repaso-card  .mode-title { color: #065f46; }
+.desafio-card .mode-title { color: #991b1b; }
+
+.mode-desc {
+    font-size: 0.82rem; font-weight: 600; line-height: 1.55;
+    margin-bottom: 14px;
+}
+.repaso-card  .mode-desc { color: #166534; }
+.desafio-card .mode-desc { color: #7f1d1d; }
+
+.mode-features {
+    list-style: none; display: flex; flex-direction: column; gap: 5px;
+    margin-bottom: 18px;
+}
+.mode-features li { font-size: 0.8rem; font-weight: 700; }
+.repaso-card  .mode-features li { color: #047857; }
+.desafio-card .mode-features li { color: #b91c1c; }
+
+.mode-btn {
+    display: block; text-align: center;
+    padding: 12px; border-radius: 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem; font-weight: 700;
+    transition: opacity 0.15s;
+}
+.mode-btn:hover { opacity: 0.88; }
+.repaso-btn  { background: linear-gradient(135deg,#10b981,#059669); color: #fff; box-shadow: 0 4px 14px rgba(16,185,129,0.4); }
+.desafio-btn { background: linear-gradient(135deg,#ef4444,#dc2626); color: #fff; box-shadow: 0 4px 14px rgba(239,68,68,0.4); }
+
+/* ─── MODE BADGE (durante sesión) ─── */
+.mode-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 16px; border-radius: 20px;
+    font-size: 0.82rem; font-weight: 800;
+    margin-bottom: 12px;
+}
+.mode-badge.badge-repaso  { background:#f0fdf4; color:#065f46; border: 1.5px solid #a7f3d0; }
+.mode-badge.badge-desafio { background:#fef2f2; color:#991b1b; border: 1.5px solid #fecaca; }
+
+/* ─── FILE UPLOAD ─── */
+.file-upload {
+    border: 3px dashed var(--pink-light); border-radius: 20px;
+    padding: 48px 24px; text-align: center; cursor: pointer;
+    transition: all 0.3s;
+    background: linear-gradient(135deg,rgba(233,30,99,0.04),rgba(124,58,237,0.04));
+    margin-bottom: 8px;
+}
+.file-upload:hover {
+    border-color: var(--pink);
+    background: linear-gradient(135deg,rgba(233,30,99,0.08),rgba(124,58,237,0.08));
+    transform: translateY(-3px); box-shadow: 0 8px 30px rgba(233,30,99,0.12);
+}
+.upload-icon  { font-size: 3.5rem; display: block; margin-bottom: 12px; }
+.upload-title { font-size: 1.2rem; font-weight: 800; color: var(--pink-dark); margin-bottom: 6px; }
+.upload-subtitle { color: var(--text-muted); font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+.upload-hint { font-size: 0.78rem; color: var(--purple); font-weight: 700; margin-top: 10px; background: rgba(124,58,237,0.06); display: inline-block; padding: 4px 12px; border-radius: 20px; }
+
+/* ─── QUESTION CARD ─── */
+.question-card {
+    background: #fff; border-radius: 22px; padding: 28px 28px 24px;
+    box-shadow: var(--shadow-lg); border: 1.5px solid var(--border);
+    margin-bottom: 16px;
+}
+.question-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; gap: 10px; flex-wrap: wrap; }
+.question-number {
+    color: #fff; padding: 6px 16px; border-radius: 20px;
+    font-weight: 800; font-size: 0.82rem; font-family: 'Space Mono', monospace;
+}
+body.mode-repaso  .question-number { background: linear-gradient(135deg,#10b981,#059669); }
+body.mode-desafio .question-number { background: linear-gradient(135deg,#ef4444,#b91c1c); }
+.question-number { background: linear-gradient(135deg, var(--pink), var(--purple)); }
+
+.question-status-badge { font-size: 0.78rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; display: none; }
+.question-status-badge.PERFECTA  { display:inline-block; background:#fffde7; color:#f59e0b; border:1.5px solid #fde68a; }
+.question-status-badge.CORRECTA  { display:inline-block; background:#f0fdf4; color:#10b981; border:1.5px solid #a7f3d0; }
+.question-status-badge.PARCIAL   { display:inline-block; background:#fff7ed; color:#f97316; border:1.5px solid #fed7aa; }
+.question-status-badge.INCORRECTA{ display:inline-block; background:#fef2f2; color:#ef4444; border:1.5px solid #fecaca; }
+
+.question-text { font-size: 1.2rem; font-weight: 700; color: var(--text); line-height: 1.65; margin-bottom: 20px; }
+
+.answer-text {
+    background: linear-gradient(135deg,#f0fdf4,#ecfdf5);
+    border-radius: 14px; padding: 18px 20px; margin-bottom: 22px;
+    border-left: 5px solid var(--green); font-size: 1.05rem;
+    font-weight: 600; color: #065f46; line-height: 1.6;
+    animation: fadeSlideIn 0.3s ease;
+}
+@keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── EVAL BUTTONS ─── */
+.evaluation-buttons {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 10px; margin-bottom: 20px;
+    animation: fadeSlideIn 0.25s ease;
+}
+.desafio-eval { grid-template-columns: repeat(2, 1fr) !important; }
+/* Botón large (modo desafío tiene solo 5 botones) */
+.desafio-eval .eval-btn:last-child { grid-column: span 1; }
+
+.eval-btn {
+    border: none; padding: 14px 10px; border-radius: 14px;
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.88rem;
+    cursor: pointer; transition: all 0.2s; display: flex;
+    flex-direction: column; align-items: center; gap: 4px; color: #fff;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent; min-height: 56px;
+}
+.eval-btn small { font-size: 0.72rem; opacity: 0.88; font-weight: 700; }
+.eval-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,0.18); }
+.eval-btn:active { transform: scale(0.97); }
+
+.eval-btn.perfect    { background: linear-gradient(135deg,#f59e0b,#d97706); box-shadow:0 4px 14px rgba(245,158,11,0.4); }
+.eval-btn.correct    { background: linear-gradient(135deg,#10b981,#059669); box-shadow:0 4px 14px rgba(16,185,129,0.4); }
+.eval-btn.partial    { background: linear-gradient(135deg,#f97316,#ea580c); box-shadow:0 4px 14px rgba(249,115,22,0.4); }
+.eval-btn.incorrect  { background: linear-gradient(135deg,#ef4444,#dc2626); box-shadow:0 4px 14px rgba(239,68,68,0.4); }
+.eval-btn.skip       { background: linear-gradient(135deg,#6b7280,#4b5563); box-shadow:0 4px 14px rgba(107,114,128,0.35); }
+.eval-btn.no-recuerdo{ background: linear-gradient(135deg,#7c2d12,#9a3412); box-shadow:0 4px 14px rgba(124,45,18,0.45); }
+
+/* En modo desafío el incorrecto pulsa */
+body.mode-desafio .eval-btn.incorrect,
+body.mode-desafio .eval-btn.no-recuerdo {
+    animation: none;
+}
+
+/* ─── NAV BUTTONS ─── */
+.navigation { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.nav-btn { border: none; padding: 12px 24px; border-radius: 50px; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; touch-action: manipulation; min-height: 44px; }
+.show-btn { background: linear-gradient(135deg,var(--purple),var(--purple-dark)); color: #fff; box-shadow: 0 4px 14px rgba(124,58,237,0.35); }
+.next-btn { background: linear-gradient(135deg,var(--pink),var(--pink-dark)); color: #fff; box-shadow: 0 4px 14px rgba(233,30,99,0.35); }
+.nav-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,0.2); }
+
+/* ─── SESSION SUMMARY ─── */
+.session-summary {
+    background: linear-gradient(135deg,#f5f3ff,#fce7f3);
+    border-radius: 22px; padding: 32px; text-align: center;
+    border: 2px solid var(--border); box-shadow: var(--shadow-lg);
+    animation: fadeSlideIn 0.4s ease;
+}
+.session-summary h2 { font-size: 1.6rem; font-weight: 900; color: var(--text); margin-bottom: 6px; }
+.session-summary .sub { color: var(--text-muted); font-weight: 600; margin-bottom: 20px; font-size: 0.9rem; }
+.summary-stats { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 22px; }
+.summary-stat { background: #fff; border-radius: 14px; padding: 12px 18px; font-weight: 800; font-size: 0.88rem; color: var(--text); box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+.summary-stat span { display: block; font-size: 1.4rem; font-family: 'Space Mono', monospace; margin-bottom: 2px; }
+.summary-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.restart-btn {
+    background: linear-gradient(135deg,var(--pink),var(--purple)); color:#fff; border:none;
+    padding:13px 28px; border-radius:50px; font-family:'Nunito',sans-serif;
+    font-weight:800; font-size:0.95rem; cursor:pointer;
+    box-shadow:0 6px 22px rgba(233,30,99,0.3); transition:all 0.2s;
+}
+.restart-btn:hover { transform:translateY(-3px); }
+.new-mode-btn {
+    background:#f1f5f9; color:var(--text); border:none;
+    padding:13px 28px; border-radius:50px; font-family:'Nunito',sans-serif;
+    font-weight:800; font-size:0.95rem; cursor:pointer; transition:all 0.2s;
+}
+.new-mode-btn:hover { background:#e2e8f0; transform:translateY(-2px); }
+
+/* ─── GAME OVER SCREEN ─── */
+.gameover-screen {
+    background: linear-gradient(135deg,#1a0000,#3b0000);
+    border-radius: 22px; padding: 48px 32px; text-align: center;
+    box-shadow: 0 20px 60px rgba(239,68,68,0.35);
+    animation: gameoverIn 0.5s cubic-bezier(.22,1,.36,1);
+}
+@keyframes gameoverIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to   { opacity: 1; transform: scale(1); }
+}
+.gameover-screen .go-skull { font-size: 5rem; margin-bottom: 16px; display: block; animation: shake 0.5s ease 0.3s; }
+@keyframes shake {
+    0%,100%{ transform:rotate(0deg); }
+    25%{ transform:rotate(-10deg); }
+    75%{ transform:rotate(10deg); }
+}
+.gameover-screen h2 { font-family:'Space Mono',monospace; font-size:2rem; color:#ef4444; margin-bottom:10px; text-shadow:0 0 30px rgba(239,68,68,0.6); }
+.gameover-screen p  { color:#fca5a5; font-weight:600; font-size:0.95rem; margin-bottom:24px; line-height:1.6; }
+.go-stats { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:28px; }
+.go-stat  { background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); border-radius:14px; padding:12px 18px; color:#fca5a5; font-weight:800; font-size:0.88rem; }
+.go-stat span { display:block; font-size:1.4rem; font-family:'Space Mono',monospace; color:#fff; margin-bottom:2px; }
+.go-retry-btn {
+    background: linear-gradient(135deg,#ef4444,#b91c1c); color:#fff; border:none;
+    padding:14px 32px; border-radius:50px; font-family:'Space Mono',monospace;
+    font-weight:700; font-size:1rem; cursor:pointer;
+    box-shadow:0 6px 24px rgba(239,68,68,0.5); transition:all 0.2s; margin: 0 6px;
+}
+.go-retry-btn:hover { transform:translateY(-3px); box-shadow:0 10px 30px rgba(239,68,68,0.6); }
+.go-menu-btn {
+    background:rgba(255,255,255,0.1); color:#fca5a5; border:1px solid rgba(239,68,68,0.3);
+    padding:14px 32px; border-radius:50px; font-family:'Nunito',sans-serif;
+    font-weight:800; font-size:1rem; cursor:pointer; transition:all 0.2s; margin: 0 6px;
+}
+.go-menu-btn:hover { background:rgba(255,255,255,0.15); transform:translateY(-2px); }
+
+/* ─── RESET MODAL ─── */
+.reset-modal {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 9999; backdrop-filter: blur(4px);
+}
+.reset-modal-content {
+    background: linear-gradient(135deg,#fff,#fce4ec);
+    padding: 32px; border-radius: 22px; text-align: center;
+    max-width: 380px; margin: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    border: 1.5px solid var(--border);
+}
+.reset-modal-content h3 { color: var(--pink-dark); margin-bottom: 12px; font-size: 1.2rem; }
+.reset-modal-content p  { color: var(--text-muted); margin-bottom: 18px; line-height: 1.6; font-weight: 600; }
+.reset-modal-buttons { display: flex; gap: 12px; justify-content: center; }
+.confirm-btn, .cancel-btn { padding: 10px 22px; border: none; border-radius: 14px; font-family: 'Nunito',sans-serif; font-weight: 800; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
+.confirm-btn { background: linear-gradient(135deg,#ef4444,#dc2626); color:#fff; box-shadow:0 4px 14px rgba(239,68,68,0.3); }
+.cancel-btn  { background: #f1f5f9; color: var(--text); }
+.confirm-btn:hover, .cancel-btn:hover { transform: translateY(-2px); }
+
+/* ─── FORMAT MODAL ─── */
+.modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 9999; backdrop-filter: blur(4px); padding: 16px;
+}
+.modal-content {
+    background: #fff; border-radius: 22px; padding: 32px;
+    max-width: 560px; width: 100%; max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25); position: relative;
+    animation: dropIn 0.2s ease;
+}
+.modal-close { position:absolute; top:16px; right:16px; background:#f1f5f9; border:none; width:32px; height:32px; border-radius:50%; font-size:0.9rem; cursor:pointer; font-weight:700; color:var(--text-muted); transition:background 0.15s; }
+.modal-close:hover { background:#e2e8f0; }
+.format-modal h2 { font-size:1.3rem; font-weight:900; color:var(--text); margin-bottom:10px; }
+.modal-desc { color:var(--text-muted); font-weight:600; margin-bottom:18px; line-height:1.6; font-size:0.9rem; }
+.format-example { background:#1e1b4b; border-radius:14px; padding:18px; margin-bottom:18px; }
+.format-example-title { font-size:0.75rem; font-weight:800; text-transform:uppercase; color:#a78bfa; margin-bottom:10px; letter-spacing:0.7px; }
+.format-example pre { font-family:'Space Mono',monospace; font-size:0.78rem; color:#e0e7ff; line-height:1.7; white-space:pre-wrap; word-break:break-word; }
+.format-rules { display:flex; flex-direction:column; gap:6px; margin-bottom:22px; }
+.rule-item { background:#f5f3ff; padding:9px 14px; border-radius:10px; font-size:0.85rem; font-weight:700; color:var(--purple); }
+.modal-ai-section { background:linear-gradient(135deg,#fce4ec,#f3e5f5); border-radius:14px; padding:20px; border:1.5px solid var(--border); }
+.modal-ai-section h3 { font-size:1rem; font-weight:800; color:var(--text); margin-bottom:8px; }
+.modal-ai-section p  { font-size:0.85rem; color:var(--text-muted); font-weight:600; line-height:1.6; margin-bottom:14px; }
+.modal-btn-row { display:flex; gap:10px; flex-wrap:wrap; }
+.modal-dl-btn { flex:1; min-width:140px; background:#fff; border:2px solid var(--border); padding:10px 14px; border-radius:12px; font-family:'Nunito',sans-serif; font-weight:800; font-size:0.82rem; cursor:pointer; color:var(--text); transition:all 0.2s; text-align:center; }
+.modal-dl-btn:hover { border-color:var(--purple); color:var(--purple); transform:translateY(-2px); box-shadow:0 4px 14px rgba(124,58,237,0.15); }
+.modal-dl-btn.accent { background:linear-gradient(135deg,var(--purple),var(--purple-dark)); color:#fff; border-color:transparent; box-shadow:0 4px 14px rgba(124,58,237,0.3); }
+.modal-dl-btn.accent:hover { opacity:0.9; }
+
+/* ─── MESSAGE POPUP ─── */
+.message-popup {
+    position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+    color: #fff; padding: 13px 26px; border-radius: 50px;
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.92rem;
+    z-index: 9998; box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+    animation: slideDown 0.25s ease; white-space: nowrap; max-width: 88vw; text-align: center;
+}
+@keyframes slideDown {
+    from { opacity:0; transform:translate(-50%,-16px); }
+    to   { opacity:1; transform:translate(-50%,0); }
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 620px) {
+    .container { padding: 18px 16px 28px; border-radius: 20px; }
+    .logo h1 { font-size: 1.2rem; }
+    .mode-selector { grid-template-columns: 1fr; }
+    .game-stats { gap: 6px; }
+    .stat-card { min-width: 54px; padding: 8px 5px 6px; }
+    .stat-value { font-size: 0.9rem; }
+    .evaluation-buttons { grid-template-columns: repeat(2, 1fr) !important; }
+    .desafio-eval { grid-template-columns: repeat(2, 1fr) !important; }
+    .question-text { font-size: 1.05rem; }
+    .modal-btn-row { flex-direction: column; }
+    .summary-actions { flex-direction: column; }
+    .go-retry-btn, .go-menu-btn { width: 100%; margin: 4px 0; }
+}
+
+/* ─── RESET MODAL MEJORADO ─── */
+.reset-warning-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.reset-subtitle {
+    font-size: 0.88rem !important;
+    color: var(--text-muted) !important;
+    margin-bottom: 16px !important;
+}
+
+.reset-detail-list {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+.reset-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.reset-detail-item span {
+    flex: 1;
+    color: var(--text-muted);
+}
+
+.reset-detail-item strong {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--text);
+}
+
+.reset-warning-text {
+    font-size: 0.8rem !important;
+    color: #b91c1c !important;
+    background: #fef2f2;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 18px !important;
+    border: 1px solid #fecaca;
+}
+
+/* ─── RESET SUCCESS ALERT ─── */
+.reset-success-alert {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border: 1.5px solid #a7f3d0;
+    border-radius: 18px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    max-width: 420px;
+    width: calc(100% - 32px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.14);
+    z-index: 10000;
+    animation: slideUp 0.3s cubic-bezier(.22,1,.36,1);
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translate(-50%, 20px); }
+    to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.rsa-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.rsa-content { flex: 1; }
+
+.rsa-title {
+    font-weight: 900;
+    font-size: 0.95rem;
+    color: #065f46;
+    margin-bottom: 4px;
+}
+
+.rsa-desc {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.rsa-close {
+    background: #f1f5f9;
+    border: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    transition: background 0.15s;
+}
+
+.rsa-close:hover { background: #e2e8f0; }
+
+    </style>
 </head>
 <body>
 <div class="container">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="logo"><span class="logo-icon">🎮</span><h1>StudyMaster</h1></div>
-    <div class="top-menu">
-      <button id="menuBtn" class="menu-btn" onclick="toggleMenu()">☰ Opciones</button>
-      <div id="menuDropdown" class="menu-dropdown hidden">
-        <div class="menu-section-label">📁 Archivo</div>
-        <button class="menu-item" onclick="document.getElementById('fileInput').click()">📂 Cargar archivo .txt</button>
-        <button class="menu-item" onclick="exportGameData()">💾 Exportar Progreso</button>
-        <button class="menu-item" onclick="document.getElementById('importInput').click()">📥 Importar Progreso</button>
-        <div class="menu-divider"></div>
-        <div class="menu-section-label">📋 Formato de Preguntas</div>
-        <button class="menu-item format-item" onclick="showFormatModal()">📄 Ver formato & ejemplos</button>
-        <button class="menu-item format-item" onclick="downloadFile('preguntas_ejemplo.txt')">⬇️ preguntas_ejemplo.txt</button>
-        <button class="menu-item format-item" onclick="downloadFile('promptt de referencia.txt')">⬇️ prompt de referencia.txt</button>
-        <div class="menu-divider"></div>
-        <button class="menu-item danger-item" onclick="showResetConfirmation()">🗑️ Limpiar Progreso</button>
-      </div>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">
+            <span class="logo-icon">🎮</span>
+            <h1>StudyMaster</h1>
+        </div>
+        <div class="top-menu">
+            <button id="menuBtn" class="menu-btn" onclick="toggleMenu()">☰ Opciones</button>
+            <div id="menuDropdown" class="menu-dropdown hidden">
+                <div class="menu-section-label">📁 Archivo</div>
+                <button class="menu-item" onclick="document.getElementById('fileInput').click()">📂 Cargar archivo .txt</button>
+                <button class="menu-item" onclick="exportGameData()">💾 Exportar Progreso</button>
+                <button class="menu-item" onclick="document.getElementById('importInput').click()">📥 Importar Progreso</button>
+
+                <div class="menu-divider"></div>
+                <div class="menu-section-label">📋 Formato de Preguntas</div>
+                <button class="menu-item format-item" onclick="showFormatModal()">📄 Ver formato & ejemplos</button>
+                <button class="menu-item format-item" onclick="downloadFile('preguntas_ejemplo.txt')">⬇️ preguntas_ejemplo.txt</button>
+                <button class="menu-item format-item" onclick="downloadFile('promptt de referencia.txt')">⬇️ prompt de referencia.txt</button>
+
+                <div class="menu-divider"></div>
+                <button class="menu-item danger-item" onclick="showResetConfirmation()">🗑️ Limpiar Progreso</button>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- STATS -->
-  <div class="game-stats">
-    <div class="stat-card level-card"><span class="stat-icon">🎯</span><div class="stat-value" id="levelDisplay">1</div><div class="stat-label">Nivel</div></div>
-    <div class="stat-card points-card"><span class="stat-icon">💎</span><div class="stat-value" id="pointsDisplay">0</div><div class="stat-label">Puntos</div></div>
-    <div class="stat-card streak-card"><span class="stat-icon">🔥</span><div class="stat-value" id="streakDisplay">0</div><div class="stat-label">Racha</div></div>
-    <div class="stat-card combo-card" id="comboCard" style="display:none;"><span class="stat-icon">⚡</span><div class="stat-value" id="comboDisplay">x1.0</div><div class="stat-label">Combo</div></div>
-    <div class="stat-card accuracy-card"><span class="stat-icon">📊</span><div class="stat-value" id="accuracyDisplay">0%</div><div class="stat-label">Precisión</div></div>
-    <div class="stat-card lives-card" id="livesCard" style="display:none;"><span class="stat-icon">❤️</span><div class="stat-value" id="livesDisplay">5</div><div class="stat-label">Vidas</div><div class="lives-visual" id="livesVisual">❤️❤️❤️❤️❤️</div></div>
-  </div>
+    <!-- STATS BAR -->
+    <div class="game-stats">
+        <div class="stat-card level-card">
+            <span class="stat-icon">🎯</span>
+            <div class="stat-value" id="levelDisplay">1</div>
+            <div class="stat-label">Nivel</div>
+        </div>
+        <div class="stat-card points-card">
+            <span class="stat-icon">💎</span>
+            <div class="stat-value" id="pointsDisplay">0</div>
+            <div class="stat-label">Puntos</div>
+        </div>
+        <div class="stat-card streak-card">
+            <span class="stat-icon">🔥</span>
+            <div class="stat-value" id="streakDisplay">0</div>
+            <div class="stat-label">Racha</div>
+        </div>
+        <div class="stat-card combo-card" id="comboCard" style="display:none;">
+            <span class="stat-icon">⚡</span>
+            <div class="stat-value" id="comboDisplay">x1.0</div>
+            <div class="stat-label">Combo</div>
+        </div>
+        <div class="stat-card accuracy-card">
+            <span class="stat-icon">📊</span>
+            <div class="stat-value" id="accuracyDisplay">0%</div>
+            <div class="stat-label">Precisión</div>
+        </div>
+        <div class="stat-card lives-card" id="livesCard" style="display:none;">
+            <span class="stat-icon">❤️</span>
+            <div class="stat-value" id="livesDisplay">5</div>
+            <div class="stat-label">Vidas</div>
+            <div class="lives-visual" id="livesVisual">❤️❤️❤️❤️❤️</div>
+        </div>
+    </div>
 
-  <!-- XP BAR -->
-  <div class="xp-bar-wrap">
-    <div class="xp-bar-label">EXP <span id="xpText">0 / 50</span></div>
-    <div class="xp-bar-track"><div class="xp-bar-fill" id="xpFill" style="width:0%"></div></div>
-  </div>
+    <!-- XP BAR -->
+    <div class="xp-bar-wrap">
+        <div class="xp-bar-label">EXP <span id="xpText">0 / 50</span></div>
+        <div class="xp-bar-track"><div class="xp-bar-fill" id="xpFill" style="width:0%"></div></div>
+    </div>
 
-  <input type="file" id="fileInput" accept=".txt" style="display:none;" onchange="handleFileSelect(event)">
-  <input type="file" id="importInput" accept="application/json" style="display:none;" onchange="importGameData(event)">
+    <!-- Hidden inputs -->
+    <input type="file" id="fileInput" accept=".txt" style="display:none;" onchange="handleFileSelect(event)">
+    <input type="file" id="importInput" accept="application/json" style="display:none;" onchange="importGameData(event)">
 
-  <!-- STATUS COUNTERS -->
-  <div id="statusCounters" class="status-counters" style="display:none;"></div>
+    <!-- STATUS COUNTERS -->
+    <div id="statusCounters" class="status-counters" style="display:none;"></div>
 
-  <!-- PROGRESS BAR -->
-  <div class="progress-container" id="progressContainer" style="display:none;">
-    <div class="progress-info"><span id="progressLabel">0 / 0</span><span id="progressPct">0%</span></div>
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-  </div>
+    <!-- PROGRESS BAR -->
+    <div class="progress-container" id="progressContainer" style="display:none;">
+        <div class="progress-info">
+            <span id="progressLabel">0 / 0</span>
+            <span id="progressPct">0%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
 
-  <!-- HOME SCREEN -->
-  <div id="homeScreen" style="display:none;">
-    <!-- Banner continuar sesión -->
-    <div id="continueBanner" style="display:none;"></div>
-    <!-- Sesiones guardadas -->
-    <div id="savedSessionsArea" style="display:none;"></div>
-    <!-- Upload nuevo -->
+    <!-- SELECTOR DE MODO -->
+    <div id="startArea" style="display:none;">
+        <div class="filter-row">
+            <label class="filter-label">Estudiar:</label>
+            <select id="studyStatusSelect" class="filter-select">
+                <option value="ALL">✨ Todas las preguntas</option>
+                <option value="PERFECTA">⭐ Solo PERFECTAS</option>
+                <option value="CORRECTA">✅ Solo CORRECTAS</option>
+                <option value="PARCIAL">⚡ Solo PARCIALES</option>
+                <option value="INCORRECTA">❌ Solo INCORRECTAS</option>
+                <option value="NUEVA">🆕 Solo NUEVAS</option>
+            </select>
+        </div>
+        <div class="mode-selector">
+            <div class="mode-card repaso-card" onclick="startSession('repaso')">
+                <div class="mode-icon">📖</div>
+                <div class="mode-title">Modo Repaso</div>
+                <div class="mode-desc">Estudia a tu ritmo sin presión. Sin penalizaciones, sin vidas. Ideal para repasar antes de un examen o aprender el material por primera vez.</div>
+                <ul class="mode-features">
+                    <li>✅ Sin pérdida de vidas</li>
+                    <li>✅ Puntos por respuesta correcta</li>
+                    <li>✅ Puedes saltar preguntas</li>
+                    <li>✅ Sin game over</li>
+                </ul>
+                <div class="mode-btn repaso-btn">📖 Iniciar Repaso</div>
+            </div>
+            <div class="mode-card desafio-card" onclick="startSession('desafio')">
+                <div class="mode-icon">⚔️</div>
+                <div class="mode-title">Modo Desafío</div>
+                <div class="mode-desc">Ponte a prueba de verdad. Tienes 5 vidas — cada error o "No Recuerdo" te cuesta una. Si las pierdes todas: Game Over.</div>
+                <ul class="mode-features">
+                    <li>❤️ 5 vidas al inicio</li>
+                    <li>💀 Game Over si pierdes todas</li>
+                    <li>🔥 Puntos y combos x2</li>
+                    <li>⭐ Récords guardados</li>
+                </ul>
+                <div class="mode-btn desafio-btn">⚔️ Iniciar Desafío</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FILE UPLOAD -->
     <div class="file-upload" id="fileUpload">
-      <span class="upload-icon">📚</span>
-      <div class="upload-title">Sube tu archivo de estudio</div>
-      <div class="upload-subtitle">Arrastra y suelta un archivo <strong>.txt</strong> o haz clic aquí</div>
-      <div class="upload-hint">¿Sin formato? Ve a <strong>Opciones → Formato de Preguntas</strong></div>
-    </div>
-  </div>
-
-  <!-- SESSION SCREEN (filtro + modo) -->
-  <div id="startArea" style="display:none;">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
-      <button onclick="goHome()" style="background:#f1f5f9;border:none;padding:7px 14px;border-radius:10px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.82rem;cursor:pointer;color:var(--text-muted);">← Volver</button>
-      <div id="currentDocBadge" style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:1.5px solid #ddd6fe;padding:6px 14px;border-radius:20px;font-size:0.82rem;font-weight:800;color:var(--purple);"></div>
-    </div>
-    <div class="filter-row">
-      <label class="filter-label">Estudiar:</label>
-      <select id="studyStatusSelect" class="filter-select">
-        <option value="ALL">✨ Todas las preguntas</option>
-        <option value="EXACTA">✅ Solo EXACTAS</option>
-        <option value="IDEA">💡 Solo TIENES LA IDEA</option>
-        <option value="PERDIDO">❌ Solo ESTÁS PERDIDO</option>
-        <option value="NUEVA">🆕 Solo NUEVAS</option>
-      </select>
-    </div>
-    <div class="mode-selector">
-      <div class="mode-card repaso-card" onclick="startSession('repaso')">
-        <div class="mode-icon">📖</div>
-        <div class="mode-title">Modo Repaso</div>
-        <div class="mode-desc">Estudia sin presión. Sin penalizaciones ni vidas. Ideal para aprender el material por primera vez.</div>
-        <ul class="mode-features">
-          <li>✅ Sin pérdida de vidas</li>
-          <li>✅ Puedes saltar preguntas</li>
-          <li>✅ Progreso guardado al terminar</li>
-          <li>✅ Sin game over</li>
-        </ul>
-        <div class="mode-btn repaso-btn">📖 Iniciar Repaso</div>
-      </div>
-      <div class="mode-card desafio-card" onclick="startSession('desafio')">
-        <div class="mode-icon">⚔️</div>
-        <div class="mode-title">Modo Desafío</div>
-        <div class="mode-desc">Ponte a prueba de verdad. 5 vidas — cada error te cuesta. Si las pierdes todas: Game Over.</div>
-        <ul class="mode-features">
-          <li>❤️ 5 vidas al inicio</li>
-          <li>💀 Game Over si pierdes todas</li>
-          <li>🔥 Puntos x2 + combos</li>
-          <li>⭐ Récords guardados</li>
-        </ul>
-        <div class="mode-btn desafio-btn">⚔️ Iniciar Desafío</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODO BADGE -->
-  <div id="modeBadge" style="display:none;" class="mode-badge"></div>
-
-  <!-- QUESTION CARD -->
-  <div class="question-card" id="questionCard" style="display:none;">
-    <div class="question-header">
-      <div class="question-number" id="questionNumber">Pregunta 1 de 10</div>
-      <div class="question-status-badge" id="questionStatusBadge"></div>
-    </div>
-    <div class="question-text" id="questionText"></div>
-    <div class="answer-text" id="answerText" style="display:none;"></div>
-
-    <!-- REPASO: 3 estados + saltar -->
-    <div class="evaluation-buttons" id="evalRepaso" style="display:none;">
-      <button class="eval-btn exacta" onclick="evaluateAnswer('exacta')">
-        ✅ Respuesta Exacta<small>+30 pts</small>
-        <span class="eval-desc">La sabías perfectamente</span>
-      </button>
-      <button class="eval-btn idea" onclick="evaluateAnswer('idea')">
-        💡 Tienes la Idea<small>+10 pts</small>
-        <span class="eval-desc">Sabías de qué iba pero incompleto</span>
-      </button>
-      <button class="eval-btn perdido" onclick="evaluateAnswer('perdido')">
-        ❌ Estás Perdido<small>±0 pts</small>
-        <span class="eval-desc">No la sabías o fue incorrecta</span>
-      </button>
+        <span class="upload-icon">📚</span>
+        <div class="upload-title">Sube tu archivo de estudio</div>
+        <div class="upload-subtitle">Arrastra y suelta un archivo <strong>.txt</strong> o haz clic aquí</div>
+        <div class="upload-hint">¿Sin formato? Ve a <strong>Opciones → Formato de Preguntas</strong></div>
     </div>
 
-    <!-- DESAFÍO: 3 estados (sin saltar, con costo de vidas) -->
-    <div class="evaluation-buttons" id="evalDesafio" style="display:none;">
-      <button class="eval-btn exacta" onclick="evaluateAnswer('exacta')">
-        ✅ Respuesta Exacta<small>+60 pts</small>
-        <span class="eval-desc">La sabías perfectamente</span>
-      </button>
-      <button class="eval-btn idea" onclick="evaluateAnswer('idea')">
-        💡 Tienes la Idea<small>+20 pts</small>
-        <span class="eval-desc">Sabías de qué iba pero incompleto</span>
-      </button>
-      <button class="eval-btn perdido" onclick="evaluateAnswer('perdido')">
-        ❌ Estás Perdido<small>−1 ❤️</small>
-        <span class="eval-desc">No la sabías — pierdes una vida</span>
-      </button>
+    <!-- MODO BADGE -->
+    <div id="modeBadge" style="display:none;" class="mode-badge"></div>
+
+    <!-- QUESTION CARD -->
+    <div class="question-card" id="questionCard" style="display:none;">
+        <div class="question-header">
+            <div class="question-number" id="questionNumber">Pregunta 1 de 10</div>
+            <div class="question-status-badge" id="questionStatusBadge"></div>
+        </div>
+        <div class="question-text" id="questionText"></div>
+        <div class="answer-text" id="answerText" style="display:none;"></div>
+
+        <div class="evaluation-buttons" id="evalRepaso" style="display:none;">
+            <button class="eval-btn perfect"     onclick="evaluateAnswer('perfect')">⭐ Perfect<small>+50 pts</small></button>
+            <button class="eval-btn correct"     onclick="evaluateAnswer(true)">✅ Correcto<small>+20 pts</small></button>
+            <button class="eval-btn partial"     onclick="evaluateAnswer('partial')">⚡ Parcial<small>+10 pts</small></button>
+            <button class="eval-btn incorrect"   onclick="evaluateAnswer(false)">❌ Incorrecto<small>±0 pts</small></button>
+            <button class="eval-btn skip"        onclick="evaluateAnswer('skip')">⏭️ Saltar<small>sin pts</small></button>
+            <button class="eval-btn no-recuerdo" onclick="evaluateAnswer('no_recuerdo')">😵 No Recuerdo<small>±0 pts</small></button>
+        </div>
+
+        <div class="evaluation-buttons desafio-eval" id="evalDesafio" style="display:none;">
+            <button class="eval-btn perfect"     onclick="evaluateAnswer('perfect')">⭐ Perfect<small>+100 pts</small></button>
+            <button class="eval-btn correct"     onclick="evaluateAnswer(true)">✅ Correcto<small>+40 pts</small></button>
+            <button class="eval-btn partial"     onclick="evaluateAnswer('partial')">⚡ Parcial<small>+20 pts</small></button>
+            <button class="eval-btn incorrect"   onclick="evaluateAnswer(false)">❌ Incorrecto<small>−1 ❤️</small></button>
+            <button class="eval-btn no-recuerdo" onclick="evaluateAnswer('no_recuerdo')">😵 No Recuerdo<small>−2 ❤️</small></button>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn show-btn" id="showAnswerBtn" onclick="showAnswer()">👁️ Ver Respuesta</button>
+            <button class="nav-btn next-btn" id="nextBtn" onclick="nextQuestion()" style="display:none;">➡️ Siguiente</button>
+        </div>
     </div>
 
-    <div class="navigation">
-      <button class="nav-btn show-btn" id="showAnswerBtn" onclick="showAnswer()">👁️ Ver Respuesta</button>
-      <button class="nav-btn next-btn" id="nextBtn" onclick="nextQuestion()" style="display:none;">➡️ Siguiente</button>
-    </div>
-  </div>
+    <!-- SESSION SUMMARY -->
+    <div class="session-summary" id="sessionSummary" style="display:none;"></div>
 
-  <!-- SESSION SUMMARY -->
-  <div class="session-summary" id="sessionSummary" style="display:none;"></div>
-  <!-- GAME OVER -->
-  <div class="gameover-screen" id="gameoverScreen" style="display:none;"></div>
+    <!-- GAME OVER -->
+    <div class="gameover-screen" id="gameoverScreen" style="display:none;"></div>
 
 </div>
 
 <!-- FORMAT MODAL -->
 <div class="modal-overlay" id="formatModal" style="display:none;" onclick="closeFormatModal(event)">
-  <div class="modal-content format-modal">
-    <button class="modal-close" onclick="closeFormatModalDirect()">✕</button>
-    <h2>📋 Formato de Preguntas</h2>
-    <p class="modal-desc">Cada pregunta y respuesta en <strong>líneas alternas</strong>, sin líneas vacías entre ellas:</p>
-    <div class="format-example">
-      <div class="format-example-title">✅ Formato correcto</div>
-      <pre>¿Qué es una base de datos relacional?
+    <div class="modal-content format-modal">
+        <button class="modal-close" onclick="closeFormatModalDirect()">✕</button>
+        <h2>📋 Formato de Preguntas</h2>
+        <p class="modal-desc">Cada pregunta y respuesta deben ir en <strong>líneas alternas</strong>, sin líneas vacías entre ellas:</p>
+        <div class="format-example">
+            <div class="format-example-title">✅ Formato correcto</div>
+            <pre>¿Qué es una base de datos relacional?
 Organiza datos en tablas relacionadas mediante claves primarias y foráneas.
 ¿Qué es SQL?
-Lenguaje de consulta estructurado para gestionar bases de datos relacionales.</pre>
+Lenguaje de consulta estructurado para gestionar bases de datos relacionales.
+¿Cuál es la diferencia entre WHERE y HAVING?
+WHERE filtra filas antes de agrupar; HAVING filtra grupos después del GROUP BY.</pre>
+        </div>
+        <div class="format-rules">
+            <div class="rule-item">📌 Línea impar = <strong>Pregunta</strong></div>
+            <div class="rule-item">📌 Línea par = <strong>Respuesta</strong></div>
+            <div class="rule-item">📌 Sin líneas vacías entre preguntas</div>
+            <div class="rule-item">📌 Guardar como <strong>.txt UTF-8</strong></div>
+        </div>
+        <div class="modal-ai-section">
+            <h3>🤖 Usar IA para formatear tus notas</h3>
+            <p>Descarga el prompt de referencia y pégalo en ChatGPT / Claude junto con tus apuntes.</p>
+            <div class="modal-btn-row">
+                <button class="modal-dl-btn" onclick="downloadFile('preguntas_ejemplo.txt')">⬇️ preguntas_ejemplo.txt</button>
+                <button class="modal-dl-btn accent" onclick="downloadFile('promptt de referencia.txt')">⬇️ prompt de referencia.txt</button>
+            </div>
+        </div>
     </div>
-    <div class="format-rules">
-      <div class="rule-item">📌 Línea impar = <strong>Pregunta</strong></div>
-      <div class="rule-item">📌 Línea par = <strong>Respuesta</strong></div>
-      <div class="rule-item">📌 Sin líneas vacías entre preguntas</div>
-      <div class="rule-item">📌 Guardar como <strong>.txt UTF-8</strong></div>
-    </div>
-    <div class="modal-ai-section">
-      <h3>🤖 Usar IA para formatear tus notas</h3>
-      <p>Descarga el prompt y pégalo en ChatGPT / Claude junto con tus apuntes.</p>
-      <div class="modal-btn-row">
-        <button class="modal-dl-btn" onclick="downloadFile('preguntas_ejemplo.txt')">⬇️ preguntas_ejemplo.txt</button>
-        <button class="modal-dl-btn accent" onclick="downloadFile('promptt de referencia.txt')">⬇️ prompt de referencia.txt</button>
-      </div>
-    </div>
-  </div>
 </div>
 
 <script>
 // ══════════════════════════════════════════
-//  StudyMaster — JS completo
-//  Estados: EXACTA / IDEA / PERDIDO
-//  Sesiones por nombre de archivo + continuar sesión
+//  StudyMaster — app.js
+//  Modos: REPASO (sin penalización) | DESAFÍO (5 vidas, game over)
 // ══════════════════════════════════════════
 
-// ── ESTADO GLOBAL ──
+// ─── Estado global del juego ───
 let gameData = {
-    level:1, points:0, experience:0,
-    streak:0, maxStreak:0,
-    lives:5, maxLives:5,
-    comboCount:0, maxCombo:0,
-    totalQuestions:0,
-    exactaAnswers:0, ideaAnswers:0, perdidoAnswers:0, skippedAnswers:0,
-    achievements:[], sessionStartTime:null
+    level: 1, points: 0, experience: 0,
+    streak: 0, maxStreak: 0,
+    lives: 5, maxLives: 5,
+    comboCount: 0, maxCombo: 0,
+    totalQuestions: 0,
+    correctAnswers: 0, incorrectAnswers: 0,
+    partialAnswers: 0, perfectAnswers: 0, skippedAnswers: 0,
+    achievements: [], sessionStartTime: null
 };
 
-let questions       = [];
-let allQuestions    = [];
-let currentIndex    = 0;
-let answerVisible   = false;
+let questions      = [];   // preguntas activas en la sesión
+let allQuestions   = [];   // todas las preguntas con estado
+let currentIndex   = 0;
+let answerVisible  = false;
 let isProcessingFile = false;
 let questionEvaluated = false;
-let currentMode     = null;       // 'repaso' | 'desafio'
-let currentDocName  = null;       // nombre del archivo activo
-let sessionStats    = { exacta:0, idea:0, perdido:0, skipped:0 };
 
-// ── CLAVES STORAGE ──
-const KEY_GAME    = 'sm_gamedata';
-const KEY_DOCS    = 'sm_docs';       // { docName: { questions:[...], lastIndex, lastMode, updatedAt } }
-const KEY_SESSION = 'sm_session';    // sesión activa en curso
+// 'repaso' | 'desafio' | null
+let currentMode = null;
+
+// Stats de la sesión activa (se resetean al inicio)
+let sessionStats = { correct: 0, incorrect: 0, partial: 0, perfect: 0, skipped: 0, noRecuerdo: 0 };
 
 // ──────────────────────────────
 //  INIT
@@ -537,230 +865,163 @@ document.addEventListener('DOMContentLoaded', () => {
     loadGameData();
     updateGameStats();
     setupFileUpload();
-    showHomeScreen();
+    autoLoadQuestions();
 });
 
 // ──────────────────────────────
 //  MENÚ
 // ──────────────────────────────
-function toggleMenu() { document.getElementById('menuDropdown').classList.toggle('hidden'); }
+function toggleMenu() {
+    document.getElementById('menuDropdown').classList.toggle('hidden');
+}
 document.addEventListener('click', (e) => {
     const d = document.getElementById('menuDropdown');
     const b = document.getElementById('menuBtn');
-    if (!d||!b||d.classList.contains('hidden')) return;
-    if (e.target===b||b.contains(e.target)||d.contains(e.target)) return;
+    if (!d || !b || d.classList.contains('hidden')) return;
+    if (e.target === b || b.contains(e.target) || d.contains(e.target)) return;
     d.classList.add('hidden');
 });
 
 // ──────────────────────────────
-//  HOME SCREEN
-// ──────────────────────────────
-function showHomeScreen() {
-    hideAllScreens();
-    document.getElementById('homeScreen').style.display = 'block';
-    document.body.className = '';
-
-    const docs = loadDocs();
-    const docNames = Object.keys(docs);
-
-    // Banner continuar sesión activa
-    const activeSession = safeParseJSON(localStorage.getItem(KEY_SESSION), null);
-    const continueBanner = document.getElementById('continueBanner');
-    if (activeSession && activeSession.docName && docs[activeSession.docName]) {
-        const d = docs[activeSession.docName];
-        const pct = d.questions.length > 0 ? Math.round(((activeSession.lastIndex||0) / d.questions.length)*100) : 0;
-        continueBanner.style.display = 'block';
-        continueBanner.innerHTML = `
-            <div class="continue-banner">
-                <div class="continue-banner-icon">▶️</div>
-                <div class="continue-banner-info">
-                    <div class="continue-banner-title">Continuar sesión: ${activeSession.docName}</div>
-                    <div class="continue-banner-sub">Ibas en la pregunta ${(activeSession.lastIndex||0)+1} de ${d.questions.length} · Modo ${activeSession.mode==='desafio'?'⚔️ Desafío':'📖 Repaso'} · ${pct}% completado</div>
-                </div>
-                <div class="continue-banner-btns">
-                    <button class="btn-continue" onclick="continueSession()">▶️ Continuar</button>
-                    <button class="btn-new-session" onclick="discardSession()">✕ Descartar</button>
-                </div>
-            </div>`;
-    } else {
-        continueBanner.style.display = 'none';
-    }
-
-    // Sesiones guardadas
-    const savedArea = document.getElementById('savedSessionsArea');
-    if (docNames.length > 0) {
-        savedArea.style.display = 'block';
-        savedArea.innerHTML = `
-            <div class="saved-sessions">
-                <div class="saved-sessions-title">📚 Tus archivos de estudio</div>
-                <div class="session-list">
-                    ${docNames.map(name => {
-                        const d = docs[name];
-                        const qs = d.questions || [];
-                        const counts = { EXACTA:0, IDEA:0, PERDIDO:0, NUEVA:0 };
-                        qs.forEach(q => {
-                            if (!q.status) counts.NUEVA++;
-                            else if (counts[q.status]!==undefined) counts[q.status]++;
-                        });
-                        const ago = d.updatedAt ? timeAgo(d.updatedAt) : '';
-                        return `<div class="session-item" onclick="selectDoc('${escapeName(name)}')">
-                            <div class="session-item-icon">📄</div>
-                            <div class="session-item-info">
-                                <div class="session-item-name">${name}</div>
-                                <div class="session-item-meta">${qs.length} preguntas ${ago ? '· '+ago : ''}</div>
-                                <div class="session-item-badges">
-                                    ${counts.EXACTA ? `<span class="session-mini-badge exacta">✅ ${counts.EXACTA}</span>` : ''}
-                                    ${counts.IDEA   ? `<span class="session-mini-badge idea">💡 ${counts.IDEA}</span>` : ''}
-                                    ${counts.PERDIDO? `<span class="session-mini-badge perdido">❌ ${counts.PERDIDO}</span>` : ''}
-                                    ${counts.NUEVA  ? `<span class="session-mini-badge nueva">🆕 ${counts.NUEVA}</span>` : ''}
-                                </div>
-                            </div>
-                            <button class="session-delete-btn" onclick="deleteDoc(event,'${escapeName(name)}')" title="Eliminar">🗑️</button>
-                            <div class="session-item-arrow">›</div>
-                        </div>`;
-                    }).join('')}
-                </div>
-            </div>`;
-    } else {
-        savedArea.style.display = 'none';
-    }
-
-    renderStatusCounters();
-}
-
-function escapeName(n) { return n.replace(/'/g, "\\'"); }
-
-function timeAgo(iso) {
-    const diff = Date.now() - new Date(iso).getTime();
-    const mins = Math.floor(diff/60000);
-    if (mins < 1) return 'hace un momento';
-    if (mins < 60) return `hace ${mins} min`;
-    const hrs = Math.floor(mins/60);
-    if (hrs < 24) return `hace ${hrs}h`;
-    const days = Math.floor(hrs/24);
-    return `hace ${days}d`;
-}
-
-function selectDoc(name) {
-    const docs = loadDocs();
-    if (!docs[name]) return;
-    currentDocName  = name;
-    allQuestions    = docs[name].questions || [];
-    document.getElementById('currentDocBadge').textContent = '📄 ' + name;
-    hideAllScreens();
-    document.getElementById('startArea').style.display = 'block';
-    renderStatusCounters();
-}
-
-function deleteDoc(e, name) {
-    e.stopPropagation();
-    if (!confirm(`¿Eliminar el archivo "${name}" y su progreso?`)) return;
-    const docs = loadDocs();
-    delete docs[name];
-    saveDocs(docs);
-    // Si era la sesión activa, limpiarla
-    const sess = safeParseJSON(localStorage.getItem(KEY_SESSION), null);
-    if (sess && sess.docName === name) localStorage.removeItem(KEY_SESSION);
-    showHomeScreen();
-    showMessage(`🗑️ "${name}" eliminado`, 'info');
-}
-
-function goHome() {
-    saveActiveSession(); // guardar posición antes de salir
-    showHomeScreen();
-}
-
-// ──────────────────────────────
-//  CONTINUAR / DESCARTAR SESIÓN
-// ──────────────────────────────
-function continueSession() {
-    const sess = safeParseJSON(localStorage.getItem(KEY_SESSION), null);
-    if (!sess) return;
-    const docs = loadDocs();
-    if (!docs[sess.docName]) return;
-
-    currentDocName = sess.docName;
-    allQuestions   = docs[sess.docName].questions || [];
-    currentMode    = sess.mode;
-
-    // Restaurar preguntas filtradas y posición
-    questions    = sess.questions || allQuestions;
-    currentIndex = sess.lastIndex || 0;
-
-    if (currentIndex >= questions.length) currentIndex = 0;
-
-    if (currentMode === 'desafio') gameData.lives = sess.lives || gameData.maxLives;
-
-    startSessionUI();
-    showMessage(`▶️ Continuando "${currentDocName}" desde pregunta ${currentIndex+1}`, 'success');
-}
-
-function discardSession() {
-    localStorage.removeItem(KEY_SESSION);
-    showHomeScreen();
-}
-
-function saveActiveSession() {
-    if (!currentMode || questions.length === 0) return;
-    localStorage.setItem(KEY_SESSION, JSON.stringify({
-        docName: currentDocName,
-        mode: currentMode,
-        questions: questions,
-        lastIndex: currentIndex,
-        lives: gameData.lives,
-        savedAt: new Date().toISOString()
-    }));
-}
-
-// ──────────────────────────────
-//  ARCHIVO: drag&drop + click
+//  ARCHIVO
 // ──────────────────────────────
 function setupFileUpload() {
+    const fileInput  = document.getElementById('fileInput');
     const fileUpload = document.getElementById('fileUpload');
-    if (!fileUpload) return;
-    fileUpload.addEventListener('click', () => { isProcessingFile = false; document.getElementById('fileInput').click(); });
-    fileUpload.addEventListener('dragover', (e) => { e.preventDefault(); fileUpload.style.borderColor='var(--pink)'; fileUpload.style.transform='translateY(-3px)'; });
-    fileUpload.addEventListener('dragleave', () => { fileUpload.style.borderColor=''; fileUpload.style.transform=''; });
+    if (!fileInput || !fileUpload) return;
+
+    fileUpload.addEventListener('click', () => { isProcessingFile = false; fileInput.click(); });
+    fileUpload.addEventListener('dragover', (e) => {
+        e.preventDefault(); fileUpload.style.borderColor = 'var(--pink)'; fileUpload.style.transform = 'translateY(-3px)';
+    });
+    fileUpload.addEventListener('dragleave', () => { fileUpload.style.borderColor = ''; fileUpload.style.transform = ''; });
     fileUpload.addEventListener('drop', (e) => {
-        e.preventDefault(); fileUpload.style.borderColor=''; fileUpload.style.transform='';
+        e.preventDefault(); fileUpload.style.borderColor = ''; fileUpload.style.transform = '';
         if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
     });
+}
+
+// Preguntas de ejemplo embebidas (funcionan sin servidor web)
+const EMBEDDED_QUESTIONS = `¿Qué es una base de datos?
+Es un conjunto organizado de datos almacenados electrónicamente que permite su acceso, gestión y actualización eficiente mediante un sistema de gestión de bases de datos (SGBD).
+¿Qué es un SGBD?
+Un Sistema Gestor de Bases de Datos es el software que permite crear, administrar y consultar bases de datos; ejemplos son MySQL, PostgreSQL, Oracle y SQL Server.
+¿Cuál es la diferencia entre una base de datos relacional y una no relacional?
+La relacional organiza datos en tablas con filas y columnas relacionadas mediante claves; la no relacional (NoSQL) usa documentos, grafos o clave-valor, sacrificando rigidez por flexibilidad y escalabilidad.
+¿Qué es una clave primaria?
+Es un atributo o conjunto de atributos que identifica de forma única cada fila de una tabla; no puede ser NULL ni repetirse.
+¿Qué es una clave foránea?
+Es un atributo en una tabla que referencia la clave primaria de otra tabla, estableciendo una relación entre ambas y garantizando la integridad referencial.
+¿Qué es la normalización?
+Es el proceso de organizar tablas y columnas para eliminar redundancia y dependencias problemáticas, aplicando reglas llamadas formas normales (1FN, 2FN, 3FN, BCNF).
+¿En qué consiste la Primera Forma Normal (1FN)?
+Exige que cada columna contenga valores atómicos (indivisibles), que no haya grupos repetidos y que cada fila sea única mediante una clave primaria.
+¿En qué consiste la Segunda Forma Normal (2FN)?
+Requiere que la tabla esté en 1FN y que todos los atributos no clave dependan completamente de la clave primaria completa, eliminando dependencias parciales.
+¿En qué consiste la Tercera Forma Normal (3FN)?
+Requiere que la tabla esté en 2FN y que ningún atributo no clave dependa transitivamente de la clave primaria; cada columna debe depender solo de la clave.
+¿Qué es SQL?
+Lenguaje de Consulta Estructurado utilizado para crear, modificar y consultar bases de datos relacionales mediante instrucciones como SELECT, INSERT, UPDATE y DELETE.
+¿Cuál es la diferencia entre DDL y DML?
+DDL (Data Definition Language) define la estructura: CREATE, ALTER, DROP. DML (Data Manipulation Language) manipula datos: SELECT, INSERT, UPDATE, DELETE.
+¿Qué hace la instrucción SELECT?
+Recupera datos de una o más tablas; puede filtrar con WHERE, ordenar con ORDER BY, agrupar con GROUP BY y limitar resultados con LIMIT.
+¿Cuál es la diferencia entre WHERE y HAVING?
+WHERE filtra filas individuales antes del agrupamiento; HAVING filtra grupos resultantes del GROUP BY y puede usar funciones de agregación como COUNT o SUM.
+¿Qué es un JOIN?
+Es una operación que combina filas de dos o más tablas basándose en una condición de relación, generalmente mediante claves primarias y foráneas.
+¿Cuál es la diferencia entre INNER JOIN y LEFT JOIN?
+INNER JOIN devuelve solo las filas con coincidencia en ambas tablas. LEFT JOIN devuelve todas las filas de la tabla izquierda aunque no tengan coincidencia en la derecha, rellenando con NULL.
+¿Qué es un RIGHT JOIN?
+Devuelve todas las filas de la tabla derecha y las filas coincidentes de la izquierda; donde no hay coincidencia, las columnas de la tabla izquierda aparecen como NULL.
+¿Qué es un FULL OUTER JOIN?
+Combina LEFT JOIN y RIGHT JOIN; devuelve todas las filas de ambas tablas, rellenando con NULL cuando no hay coincidencia en el lado contrario.
+¿Qué es un índice en bases de datos?
+Estructura auxiliar que acelera las búsquedas en una tabla a costa de espacio en disco y tiempo adicional en operaciones de escritura; funciona como el índice de un libro.
+¿Qué tipos de índices existen?
+Los principales son: índice único (no permite duplicados), índice compuesto (sobre varias columnas), índice clustered (ordena físicamente la tabla) y non-clustered (apuntadores separados).
+¿Qué es una transacción?
+Conjunto de operaciones que se ejecutan como una unidad atómica; si alguna falla, todas se revierten (ROLLBACK) para mantener la integridad de los datos.
+¿Qué significa ACID?
+Atomicidad (todo o nada), Consistencia (el estado siempre es válido), Aislamiento (las transacciones no se interfieren entre sí), Durabilidad (los cambios confirmados persisten ante fallos).
+¿Qué es COMMIT?
+Instrucción que confirma y hace permanentes todos los cambios realizados en una transacción, guardándolos definitivamente en la base de datos.
+¿Qué es ROLLBACK?
+Instrucción que revierte todos los cambios realizados en una transacción no confirmada, devolviendo la base de datos a su estado anterior.
+¿Qué es un trigger?
+Procedimiento almacenado que se ejecuta automáticamente antes o después de una operación INSERT, UPDATE o DELETE sobre una tabla, útil para auditoría y validaciones.
+¿Qué es un stored procedure?
+Bloque de código SQL precompilado y almacenado en la base de datos que puede ejecutarse con parámetros; mejora el rendimiento y reutilización del código.
+¿Qué es una vista (VIEW)?
+Consulta almacenada que se comporta como una tabla virtual; no almacena datos propios sino que los obtiene dinámicamente de las tablas base al ser consultada.
+¿Qué es la integridad referencial?
+Garantía de que las relaciones entre tablas son siempre consistentes; si una clave foránea apunta a un registro, ese registro debe existir en la tabla referenciada.
+¿Qué son las funciones de agregación en SQL?
+Funciones que calculan un valor sobre un conjunto de filas: COUNT (cuenta), SUM (suma), AVG (promedio), MAX (máximo), MIN (mínimo).
+¿Qué hace GROUP BY?
+Agrupa las filas que tienen el mismo valor en una o varias columnas, permitiendo aplicar funciones de agregación a cada grupo por separado.
+¿Qué hace ORDER BY?
+Ordena el resultado de una consulta según una o más columnas, de forma ascendente (ASC, por defecto) o descendente (DESC).
+¿Qué es una subconsulta?
+Consulta anidada dentro de otra instrucción SQL; puede aparecer en SELECT, FROM o WHERE y se evalúa primero para proporcionar datos a la consulta exterior.
+¿Qué es la denormalización?
+Proceso inverso a la normalización que introduce redundancia controlada para mejorar el rendimiento de lectura, a costa de mayor complejidad en las actualizaciones.
+¿Qué es MongoDB?
+Base de datos NoSQL orientada a documentos que almacena datos en formato BSON (similar a JSON), ofreciendo flexibilidad de esquema y escalabilidad horizontal.
+¿Qué es una colección en MongoDB?
+Equivalente a una tabla en bases de datos relacionales; es un grupo de documentos BSON que no requieren tener la misma estructura entre sí.
+¿Qué es un documento en MongoDB?
+Unidad básica de datos en MongoDB, equivalente a una fila en SQL; es un objeto JSON/BSON con pares clave-valor que puede contener estructuras anidadas y arrays.
+¿Qué es el modelo ER?
+El modelo Entidad-Relación es una representación gráfica del diseño de una base de datos que muestra entidades, sus atributos y las relaciones entre ellas.
+¿Qué es una entidad en el modelo ER?
+Objeto del mundo real sobre el que se almacena información; se representa como un rectángulo y se convierte en una tabla al implementar la base de datos.
+¿Qué es la cardinalidad en el modelo ER?
+Indica el número máximo de instancias que pueden participar en una relación: uno a uno (1:1), uno a muchos (1:N) o muchos a muchos (M:N).
+¿Qué es un esquema de base de datos?
+Descripción formal de la estructura de una base de datos: tablas, columnas, tipos de datos, restricciones, índices y relaciones, independientemente de los datos almacenados.
+¿Qué diferencia hay entre DELETE, TRUNCATE y DROP?
+DELETE elimina filas específicas con posibilidad de ROLLBACK. TRUNCATE elimina todas las filas rápidamente sin log detallado. DROP elimina la tabla entera con su estructura.`;
+
+function autoLoadQuestions() {
+    // Primero intentar cargar estudioBD.txt desde el servidor (si existe)
+    fetch('./estudioBD.txt')
+        .then(r => { if (!r.ok) throw new Error(); return r.text(); })
+        .then(content => {
+            allQuestions = parseQuestions(content);
+            if (allQuestions.length > 0) {
+                document.getElementById('fileUpload').style.display = 'none';
+                showModeSelector();
+            }
+        })
+        .catch(() => {
+            // Sin servidor o sin archivo: usar las preguntas embebidas automáticamente
+            allQuestions = parseQuestions(EMBEDDED_QUESTIONS);
+            if (allQuestions.length > 0) {
+                document.getElementById('fileUpload').style.display = 'none';
+                showModeSelector();
+            }
+        });
 }
 
 function handleFileSelect(event) {
     const file = event.target.files[0];
     if (file) handleFile(file);
-    event.target.value = '';
 }
 
 function handleFile(file) {
     if (isProcessingFile) return;
-    if (!file.name.toLowerCase().endsWith('.txt')) { showMessage('❌ Selecciona un archivo .txt', 'error'); return; }
+    if (!file.name.toLowerCase().endsWith('.txt')) {
+        showMessage('❌ Por favor selecciona un archivo .txt', 'error'); return;
+    }
     isProcessingFile = true;
     const reader = new FileReader();
     reader.onload = (e) => {
-        const parsed = parseQuestions(e.target.result, file.name);
-        if (parsed.length > 0) {
-            // Guardar doc (merge con estados previos si ya existe)
-            const docs = loadDocs();
-            const docName = file.name.replace(/\.txt$/i,'');
-            if (docs[docName]) {
-                // Conservar estados previos
-                const oldMap = {};
-                docs[docName].questions.forEach(q => { if (q.status) oldMap[q.question] = q.status; });
-                parsed.forEach(q => { if (oldMap[q.question]) q.status = oldMap[q.question]; });
-            }
-            docs[docName] = { questions: parsed, updatedAt: new Date().toISOString() };
-            saveDocs(docs);
-            currentDocName = docName;
-            allQuestions   = parsed;
-            document.getElementById('currentDocBadge').textContent = '📄 ' + docName;
-            hideAllScreens();
-            document.getElementById('startArea').style.display = 'block';
-            renderStatusCounters();
-            showMessage(`✅ "${docName}" cargado — ${parsed.length} preguntas`, 'success');
-        }
-        isProcessingFile = false;
+        allQuestions = parseQuestions(e.target.result);
+        if (allQuestions.length > 0) {
+            document.getElementById('fileUpload').style.display = 'none';
+            showModeSelector();
+        } else { isProcessingFile = false; }
     };
     reader.onerror = () => { showMessage('❌ Error leyendo el archivo', 'error'); isProcessingFile = false; };
     reader.readAsText(file, 'UTF-8');
@@ -773,81 +1034,121 @@ function parseQuestions(text) {
     if (!text || !text.trim()) { showMessage('❌ El archivo está vacío', 'error'); return []; }
     const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
     const parsed = [];
+
     if (lines.length % 2 === 0) {
-        for (let i = 0; i < lines.length; i += 2)
-            if (lines[i+1]) parsed.push({ question: lines[i], answer: lines[i+1], status: null });
+        for (let i = 0; i < lines.length; i += 2) {
+            if (lines[i + 1]) parsed.push({ question: lines[i], answer: lines[i + 1] });
+        }
     } else {
-        let q='', a='';
+        let q = '', a = '';
         for (const line of lines) {
             if (line.includes('?') || /^(qué|cuál|cómo|dónde|quién|cuándo|por qué)/i.test(line)) {
-                if (q && a) parsed.push({ question:q, answer:a, status:null });
-                q=line; a='';
-            } else { a = a ? a+' '+line : line; }
+                if (q && a) parsed.push({ question: q, answer: a });
+                q = line; a = '';
+            } else { a = a ? a + ' ' + line : line; }
         }
-        if (q && a) parsed.push({ question:q, answer:a, status:null });
+        if (q && a) parsed.push({ question: q, answer: a });
     }
+
     if (parsed.length === 0) { showMessage('❌ No se encontraron preguntas. Revisa el formato.', 'error'); return []; }
+
+    const savedMap = window.__studymaster_saved_question_status_map ||
+        safeParseJSON(localStorage.getItem('studymaster_question_status'), {});
+    parsed.forEach(q => { q.status = savedMap[q.question] || null; });
     return parsed;
 }
 
 // ──────────────────────────────
-//  INICIAR SESIÓN
+//  MOSTRAR SELECTOR DE MODO
+// ──────────────────────────────
+function showModeSelector() {
+    const startArea = document.getElementById('startArea');
+    startArea.style.display = 'block';
+    document.getElementById('fileUpload').style.display    = 'none';
+    document.getElementById('questionCard').style.display  = 'none';
+    document.getElementById('sessionSummary').style.display = 'none';
+    document.getElementById('gameoverScreen').style.display = 'none';
+    document.getElementById('progressContainer').style.display = 'none';
+    document.getElementById('modeBadge').style.display      = 'none';
+    document.body.className = '';
+    renderStatusCounters();
+}
+
+// ──────────────────────────────
+//  INICIAR SESIÓN (llamado desde tarjetas de modo)
 // ──────────────────────────────
 function startSession(mode) {
-    if (!allQuestions || allQuestions.length === 0) { showMessage('❌ No hay preguntas cargadas', 'error'); return; }
     const sel = document.getElementById('studyStatusSelect');
     const filterVal = sel ? sel.value : 'ALL';
 
     let filtered;
-    if (!filterVal || filterVal==='ALL')      filtered = [...allQuestions];
-    else if (filterVal==='NUEVA')             filtered = allQuestions.filter(q => !q.status);
-    else                                      filtered = allQuestions.filter(q => q.status===filterVal);
+    if (!filterVal || filterVal === 'ALL') {
+        filtered = [...allQuestions];
+    } else if (filterVal === 'NUEVA') {
+        filtered = allQuestions.filter(q => !q.status);
+    } else {
+        filtered = allQuestions.filter(q => q.status === filterVal);
+    }
 
-    if (filtered.length === 0) { showMessage('⚠️ No hay preguntas con ese estado', 'warning'); return; }
+    if (filtered.length === 0) {
+        showMessage('⚠️ No hay preguntas con ese estado', 'warning'); return;
+    }
 
-    currentMode  = mode;
-    questions    = shuffleArray(filtered);
+    currentMode = mode;
+    questions   = shuffleArray(filtered);
     currentIndex = 0;
     answerVisible = false;
     isProcessingFile = false;
     questionEvaluated = false;
-    sessionStats = { exacta:0, idea:0, perdido:0, skipped:0 };
+    sessionStats = { correct: 0, incorrect: 0, partial: 0, perfect: 0, skipped: 0, noRecuerdo: 0 };
     gameData.sessionStartTime = new Date();
-    if (mode==='desafio') gameData.lives = gameData.maxLives;
 
-    startSessionUI();
-    showMessage(mode==='repaso' ? `📖 Repaso — ${questions.length} preguntas` : `⚔️ Desafío — ${questions.length} preguntas, 5 vidas`, 'success');
-}
-
-function startSessionUI() {
-    hideAllScreens();
-    document.getElementById('progressContainer').style.display = 'block';
-    document.getElementById('questionCard').style.display = 'block';
-    document.getElementById('modeBadge').style.display = 'inline-flex';
-
-    const badge = document.getElementById('modeBadge');
-    if (currentMode==='repaso') {
-        badge.className='mode-badge badge-repaso';
-        badge.textContent='📖 Modo Repaso — sin penalizaciones';
-        document.body.className='mode-repaso';
-        document.getElementById('livesCard').style.display='none';
-    } else {
-        badge.className='mode-badge badge-desafio';
-        badge.textContent=`⚔️ Modo Desafío — ${gameData.lives} ❤️ vidas`;
-        document.body.className='mode-desafio';
-        document.getElementById('livesCard').style.display='';
+    // Si modo desafío: resetear vidas al inicio de cada sesión de desafío
+    if (mode === 'desafio') {
+        gameData.lives = gameData.maxLives;
     }
+
+    // UI
+    document.getElementById('startArea').style.display       = 'none';
+    document.getElementById('fileUpload').style.display      = 'none';
+    document.getElementById('sessionSummary').style.display  = 'none';
+    document.getElementById('gameoverScreen').style.display  = 'none';
+    document.getElementById('progressContainer').style.display = 'block';
+    document.getElementById('questionCard').style.display    = 'block';
+
+    // Badge de modo
+    const badge = document.getElementById('modeBadge');
+    badge.style.display = 'inline-flex';
+    if (mode === 'repaso') {
+        badge.className = 'mode-badge badge-repaso';
+        badge.textContent = '📖 Modo Repaso — Sin penalizaciones';
+        document.body.className = 'mode-repaso';
+        document.getElementById('livesCard').style.display = 'none';
+    } else {
+        badge.className = 'mode-badge badge-desafio';
+        badge.textContent = '⚔️ Modo Desafío — ' + gameData.lives + ' vidas';
+        document.body.className = 'mode-desafio';
+        document.getElementById('livesCard').style.display = '';
+    }
+
     updateGameStats();
     showQuestion();
+    showMessage(mode === 'repaso'
+        ? `📖 Repaso iniciado — ${questions.length} preguntas`
+        : `⚔️ Desafío iniciado — ${questions.length} preguntas, 5 vidas`, 'success');
+
+    const fileInput = document.getElementById('fileInput');
+    if (fileInput) fileInput.value = '';
 }
 
 // ──────────────────────────────
-//  PREGUNTA
+//  MOSTRAR PREGUNTA
 // ──────────────────────────────
 function showQuestion() {
     if (currentIndex >= questions.length) { endSession(); return; }
+
     const q = questions[currentIndex];
-    document.getElementById('questionNumber').textContent = `Pregunta ${currentIndex+1} de ${questions.length}`;
+    document.getElementById('questionNumber').textContent = `Pregunta ${currentIndex + 1} de ${questions.length}`;
     document.getElementById('questionText').textContent   = q.question;
     document.getElementById('answerText').style.display   = 'none';
     document.getElementById('answerText').textContent     = '';
@@ -858,29 +1159,32 @@ function showQuestion() {
 
     // Badge estado previo
     const badge = document.getElementById('questionStatusBadge');
-    badge.textContent=''; badge.className='question-status-badge';
+    badge.textContent = ''; badge.className = 'question-status-badge';
     if (q.status) {
-        const lbl = { EXACTA:'✅ Exacta', IDEA:'💡 Tienes la Idea', PERDIDO:'❌ Perdido' };
+        const lbl = { PERFECTA:'⭐ Perfecta', CORRECTA:'✅ Correcta', PARCIAL:'⚡ Parcial', INCORRECTA:'❌ Incorrecta' };
         badge.textContent = lbl[q.status] || q.status;
         badge.classList.add(q.status);
     }
 
-    if (currentMode==='desafio')
-        document.getElementById('modeBadge').textContent = `⚔️ Modo Desafío — ${gameData.lives} ❤️ vidas`;
+    // Actualizar badge de modo con vidas en desafío
+    if (currentMode === 'desafio') {
+        document.getElementById('modeBadge').textContent = '⚔️ Modo Desafío — ' + gameData.lives + ' ❤️ vidas';
+    }
 
     answerVisible = false;
     questionEvaluated = false;
     updateProgress();
-    saveActiveSession(); // guardar posición en cada pregunta
 }
 
 function showAnswer() {
     const q = questions[currentIndex];
-    document.getElementById('answerText').textContent   = q.answer;
-    document.getElementById('answerText').style.display = 'block';
+    document.getElementById('answerText').textContent    = q.answer;
+    document.getElementById('answerText').style.display  = 'block';
     document.getElementById('showAnswerBtn').style.display = 'none';
     document.getElementById('nextBtn').style.display      = 'inline-block';
-    if (currentMode==='repaso') {
+
+    // Mostrar botones del modo correcto
+    if (currentMode === 'repaso') {
         document.getElementById('evalRepaso').style.display  = 'grid';
         document.getElementById('evalDesafio').style.display = 'none';
     } else {
@@ -891,57 +1195,88 @@ function showAnswer() {
 }
 
 // ──────────────────────────────
-//  EVALUACIÓN — nuevos 3 estados
+//  EVALUACIÓN
 // ──────────────────────────────
 function evaluateAnswer(evaluation) {
     if (questionEvaluated) return;
     if (!answerVisible) { showMessage('❌ Primero ve la respuesta', 'error'); return; }
 
     const isDesafio = currentMode === 'desafio';
-    const lm = 1 + (gameData.level-1)*0.2;
-    const pm = isDesafio ? 2 : 1;
-    let pts=0, xp=0, msg='', newStatus=null;
+    // En desafío los puntos base son x2
+    const pointMult = isDesafio ? 2 : 1;
+    const lm = 1 + (gameData.level - 1) * 0.2;
 
-    switch(evaluation) {
-        case 'exacta':
-            pts = Math.floor(30*lm*pm); xp = Math.floor(15*lm);
-            gameData.exactaAnswers++; gameData.streak++; gameData.comboCount++;
-            sessionStats.exacta++;
-            msg = `✅ Respuesta Exacta! +${pts} pts`; newStatus='EXACTA'; break;
-        case 'idea':
-            pts = Math.floor(10*lm*pm); xp = Math.floor(5*lm);
-            gameData.ideaAnswers++; gameData.streak++; gameData.comboCount++;
-            sessionStats.idea++;
-            msg = `💡 Tienes la Idea +${pts} pts`; newStatus='IDEA'; break;
-        case 'perdido':
-            if (isDesafio) { gameData.lives--; msg = `❌ Estás Perdido — −1 ❤️ (${Math.max(0,gameData.lives)} restantes)`; }
-            else { msg = '❌ Estás Perdido — repasa este tema'; }
-            gameData.perdidoAnswers++; gameData.streak=0; gameData.comboCount=0;
-            sessionStats.perdido++;
-            newStatus='PERDIDO'; break;
+    let basePoints = 0, xp = 0, msg = '', newStatus = null;
+
+    switch (evaluation) {
+        case 'perfect':
+            basePoints = Math.floor(50 * lm * pointMult); xp = Math.floor(25 * lm);
+            gameData.perfectAnswers++; gameData.streak++; gameData.comboCount++;
+            sessionStats.perfect++;
+            msg = `⭐ Perfect! +${basePoints} pts`; newStatus = 'PERFECTA'; break;
+
+        case true:
+            basePoints = Math.floor(20 * lm * pointMult); xp = Math.floor(10 * lm);
+            gameData.correctAnswers++; gameData.streak++; gameData.comboCount++;
+            sessionStats.correct++;
+            msg = `✅ Correcto +${basePoints} pts`; newStatus = 'CORRECTA'; break;
+
+        case 'partial':
+            basePoints = Math.floor(10 * lm * pointMult); xp = Math.floor(5 * lm);
+            gameData.partialAnswers++; gameData.streak++; gameData.comboCount++;
+            sessionStats.partial++;
+            msg = `⚡ Parcial +${basePoints} pts`; newStatus = 'PARCIAL'; break;
+
+        case false:
+            if (isDesafio) {
+                // DESAFÍO: pierde 1 vida, sin pérdida de puntos
+                basePoints = 0; gameData.lives--;
+                msg = `❌ Incorrecto — perdiste 1 ❤️ (${gameData.lives} restantes)`;
+            } else {
+                // REPASO: sin penalización
+                basePoints = 0;
+                msg = `❌ Incorrecto — anota lo que falló`;
+            }
+            gameData.incorrectAnswers++; gameData.streak = 0; gameData.comboCount = 0;
+            sessionStats.incorrect++;
+            newStatus = 'INCORRECTA'; break;
+
         case 'skip':
-            gameData.skippedAnswers++; gameData.comboCount=0;
+            // Solo en repaso (botón no aparece en desafío)
+            basePoints = 0;
+            gameData.skippedAnswers++; gameData.comboCount = 0;
             sessionStats.skipped++;
-            msg = '⏭️ Saltado'; break;
+            msg = `⏭️ Saltado`; break;
+
+        case 'no_recuerdo':
+            if (isDesafio) {
+                basePoints = 0; gameData.lives -= 2;
+                msg = `😵 No Recuerdo — perdiste 2 ❤️ (${Math.max(0,gameData.lives)} restantes)`;
+            } else {
+                basePoints = 0;
+                msg = `😵 No Recuerdo — repasa este tema`;
+            }
+            gameData.incorrectAnswers++; gameData.streak = 0; gameData.comboCount = 0;
+            sessionStats.noRecuerdo++;
+            newStatus = 'INCORRECTA'; break;
     }
 
-    // Actualizar estado en allQuestions y guardar
+    // Actualizar estado de pregunta
     if (newStatus) {
         questions[currentIndex].status = newStatus;
-        const ai = allQuestions.findIndex(a => a.question===questions[currentIndex].question);
-        if (ai>=0) allQuestions[ai].status = newStatus;
-        persistDocQuestions();
+        const ai = allQuestions.findIndex(a => a.question === questions[currentIndex].question);
+        if (ai >= 0) allQuestions[ai].status = newStatus;
     }
 
-    // Combo
-    let finalPts = pts;
-    if (pts>0 && gameData.comboCount>1) {
-        const cm = Math.min(1+gameData.comboCount*0.1, 3);
-        finalPts = Math.floor(pts*cm);
-        msg += ` 🔥×${cm.toFixed(1)}`;
+    // Combo bonus solo en puntos positivos
+    let finalPoints = basePoints;
+    if (basePoints > 0 && gameData.comboCount > 1) {
+        const cMult = Math.min(1 + gameData.comboCount * 0.1, 3);
+        finalPoints = Math.floor(basePoints * cMult);
+        msg += ` 🔥×${cMult.toFixed(1)}`;
     }
 
-    gameData.points     = Math.max(0, gameData.points+finalPts);
+    gameData.points     = Math.max(0, gameData.points + finalPoints);
     gameData.experience += xp;
     gameData.totalQuestions++;
     gameData.maxStreak  = Math.max(gameData.maxStreak, gameData.streak);
@@ -949,14 +1284,15 @@ function evaluateAnswer(evaluation) {
     gameData.lives      = Math.max(0, gameData.lives);
 
     // Level up
-    const xpNeeded = gameData.level*50;
+    const xpNeeded = gameData.level * 50;
     if (gameData.experience >= xpNeeded) {
-        gameData.level++; gameData.experience -= xpNeeded;
+        gameData.level++;
+        gameData.experience -= xpNeeded;
         if (isDesafio && gameData.lives < gameData.maxLives) gameData.lives++;
-        showMessage(`🎉 ¡Nivel ${gameData.level}!${isDesafio?' +1 ❤️':''}`, 'success');
+        showMessage(`🎉 ¡Nivel ${gameData.level}!${isDesafio ? ' +1 ❤️' : ''}`, 'success');
     }
 
-    showMessage(msg, pts>0 ? 'success' : evaluation==='perdido' ? 'error' : 'info');
+    showMessage(msg, basePoints > 0 ? 'success' : (evaluation === false || evaluation === 'no_recuerdo') ? 'error' : 'info');
 
     questionEvaluated = true;
     document.getElementById('evalRepaso').style.display  = 'none';
@@ -965,169 +1301,197 @@ function evaluateAnswer(evaluation) {
     updateGameStats();
     saveGameData();
 
-    if (isDesafio && gameData.lives<=0) { setTimeout(()=>showGameOver(), 800); return; }
-    setTimeout(()=>nextQuestion(), 1300);
+    // GAME OVER en modo desafío
+    if (isDesafio && gameData.lives <= 0) {
+        setTimeout(() => showGameOver(), 800);
+        return;
+    }
+
+    setTimeout(() => nextQuestion(), 1300);
 }
 
 function nextQuestion() { currentIndex++; showQuestion(); }
 
 // ──────────────────────────────
-//  PERSISTIR ESTADOS EN STORAGE
-// ──────────────────────────────
-function persistDocQuestions() {
-    if (!currentDocName) return;
-    const docs = loadDocs();
-    if (!docs[currentDocName]) return;
-    docs[currentDocName].questions   = allQuestions;
-    docs[currentDocName].updatedAt   = new Date().toISOString();
-    saveDocs(docs);
-}
-
-// ──────────────────────────────
-//  GAME OVER
+//  GAME OVER (solo desafío)
 // ──────────────────────────────
 function showGameOver() {
-    localStorage.removeItem(KEY_SESSION); // limpiar sesión guardada
-    hideAllScreens();
+    const total   = sessionStats.correct + sessionStats.partial + sessionStats.perfect;
+    const reached = currentIndex + 1;
+
+    document.getElementById('questionCard').style.display    = 'none';
+    document.getElementById('progressContainer').style.display = 'none';
+    document.getElementById('modeBadge').style.display        = 'none';
+
     const go = document.getElementById('gameoverScreen');
     go.style.display = 'block';
     go.innerHTML = `
         <span class="go-skull">💀</span>
         <h2>GAME OVER</h2>
-        <p>Perdiste todas tus vidas en el Modo Desafío.</p>
+        <p>Perdiste todas tus vidas en el Modo Desafío.<br>¿Tienes lo que hace falta para vencer?</p>
         <div class="go-stats">
-            <div class="go-stat"><span>${currentIndex+1}</span>Llegaste a</div>
-            <div class="go-stat"><span>${questions.length}</span>Total</div>
-            <div class="go-stat"><span>${sessionStats.exacta}</span>✅ Exactas</div>
-            <div class="go-stat"><span>${sessionStats.idea}</span>💡 Con Idea</div>
-            <div class="go-stat"><span>${sessionStats.perdido}</span>❌ Perdido</div>
-            <div class="go-stat"><span>${gameData.points.toLocaleString()}</span>💎 Pts</div>
+            <div class="go-stat"><span>${reached}</span>Llegaste a</div>
+            <div class="go-stat"><span>${questions.length}</span>Total preguntas</div>
+            <div class="go-stat"><span>${sessionStats.perfect}</span>⭐ Perfectas</div>
+            <div class="go-stat"><span>${sessionStats.correct}</span>✅ Correctas</div>
+            <div class="go-stat"><span>${sessionStats.incorrect + sessionStats.noRecuerdo}</span>❌ Errores</div>
+            <div class="go-stat"><span>${gameData.points.toLocaleString()}</span>💎 Puntos</div>
         </div>
         <div>
-            <button class="go-retry-btn" onclick="startSession('desafio')">🔄 Reintentar</button>
-            <button class="go-menu-btn" onclick="showHomeScreen()">🏠 Menú</button>
-        </div>`;
-    gameData.points = Math.floor(gameData.points*0.7);
-    saveGameData(); updateGameStats();
+            <button class="go-retry-btn" onclick="retryDesafio()">🔄 Reintentar Desafío</button>
+            <button class="go-menu-btn"  onclick="goToMenu()">🏠 Menú</button>
+        </div>
+    `;
+
+    // Penalización: perder 30% de puntos en game over
+    gameData.points = Math.floor(gameData.points * 0.7);
+    saveGameData();
+    updateGameStats();
+}
+
+function retryDesafio() {
+    document.getElementById('gameoverScreen').style.display = 'none';
+    startSession('desafio');
+}
+
+function goToMenu() {
+    document.getElementById('gameoverScreen').style.display = 'none';
+    questions = []; currentIndex = 0; isProcessingFile = false;
+    showModeSelector();
 }
 
 // ──────────────────────────────
 //  FIN DE SESIÓN NORMAL
 // ──────────────────────────────
 function endSession() {
-    localStorage.removeItem(KEY_SESSION);
-    const total = sessionStats.exacta+sessionStats.idea+sessionStats.perdido+sessionStats.skipped;
-    const good  = sessionStats.exacta+sessionStats.idea;
-    const pct   = total>0 ? Math.round((good/total)*100) : 0;
-    const elapsed = gameData.sessionStartTime ? Math.round((new Date()-new Date(gameData.sessionStartTime))/60000) : 0;
+    const totalSess = sessionStats.correct + sessionStats.partial + sessionStats.perfect + sessionStats.incorrect + sessionStats.noRecuerdo + sessionStats.skipped;
+    const goodSess  = sessionStats.correct + sessionStats.partial + sessionStats.perfect;
+    const pct       = totalSess > 0 ? Math.round((goodSess / totalSess) * 100) : 0;
+    const elapsed   = gameData.sessionStartTime
+        ? Math.round((new Date() - new Date(gameData.sessionStartTime)) / 60000) : 0;
+    const modeLabel = currentMode === 'desafio' ? '⚔️ Desafío completado' : '📖 Repaso completado';
+    const modeCls   = currentMode === 'desafio' ? '#991b1b' : '#065f46';
 
-    hideAllScreens();
-    const sum = document.getElementById('sessionSummary');
-    sum.style.display = 'block';
-    sum.innerHTML = `
-        <h2>${currentMode==='desafio'?'⚔️ Desafío':'📖 Repaso'} completado 🎉</h2>
-        <p class="sub">¡Terminaste todas las preguntas!</p>
+    document.getElementById('questionCard').style.display      = 'none';
+    document.getElementById('progressContainer').style.display = 'none';
+    document.getElementById('modeBadge').style.display         = 'none';
+
+    const summary = document.getElementById('sessionSummary');
+    summary.style.display = 'block';
+    summary.innerHTML = `
+        <h2>${modeLabel} 🎉</h2>
+        <p class="sub" style="color:${modeCls}">¡Terminaste todas las preguntas de esta sesión!</p>
         <div class="summary-stats">
             <div class="summary-stat"><span>${pct}%</span>Precisión</div>
             <div class="summary-stat"><span>${questions.length}</span>Preguntas</div>
-            <div class="summary-stat"><span>${sessionStats.exacta}</span>✅ Exactas</div>
-            <div class="summary-stat"><span>${sessionStats.idea}</span>💡 Con Idea</div>
-            <div class="summary-stat"><span>${sessionStats.perdido}</span>❌ Perdido</div>
+            <div class="summary-stat"><span>${sessionStats.perfect}</span>⭐ Perfect</div>
+            <div class="summary-stat"><span>${sessionStats.correct}</span>✅ Correctas</div>
+            <div class="summary-stat"><span>${sessionStats.partial}</span>⚡ Parciales</div>
+            <div class="summary-stat"><span>${sessionStats.incorrect + sessionStats.noRecuerdo}</span>❌ Incorrectas</div>
             <div class="summary-stat"><span>${elapsed} min</span>Tiempo</div>
-            <div class="summary-stat"><span>${gameData.points.toLocaleString()}</span>💎 Pts</div>
+            <div class="summary-stat"><span>${gameData.points.toLocaleString()}</span>💎 Puntos</div>
         </div>
         <div class="summary-actions">
-            <button class="restart-btn" onclick="startSession('${currentMode}')">🔄 Repetir</button>
-            <button class="new-mode-btn" onclick="showHomeScreen()">🏠 Menú</button>
-        </div>`;
+            <button class="restart-btn" onclick="replayMode()">🔄 Repetir este modo</button>
+            <button class="new-mode-btn" onclick="goToMenu()">🎮 Cambiar modo</button>
+        </div>
+    `;
+
+    questions = []; currentIndex = 0; isProcessingFile = false;
     renderStatusCounters();
 }
 
-// ──────────────────────────────
-//  UI HELPERS
-// ──────────────────────────────
-function hideAllScreens() {
-    ['homeScreen','startArea','questionCard','progressContainer',
-     'modeBadge','sessionSummary','gameoverScreen'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.style.display = 'none';
-    });
+function replayMode() {
+    const lastMode = currentMode;
+    document.getElementById('sessionSummary').style.display = 'none';
+    startSession(lastMode);
 }
 
+// ──────────────────────────────
+//  UI: STATS
+// ──────────────────────────────
 function updateGameStats() {
     document.getElementById('levelDisplay').textContent  = gameData.level;
-    document.getElementById('pointsDisplay').textContent = (gameData.points||0).toLocaleString();
+    document.getElementById('pointsDisplay').textContent = (gameData.points || 0).toLocaleString();
     document.getElementById('streakDisplay').textContent = gameData.streak;
     document.getElementById('livesDisplay').textContent  = gameData.lives;
 
-    let lv='';
-    for (let i=0;i<gameData.maxLives;i++) lv += i<gameData.lives?'❤️':'🖤';
+    let lv = '';
+    for (let i = 0; i < gameData.maxLives; i++) lv += i < gameData.lives ? '❤️' : '🖤';
     document.getElementById('livesVisual').textContent = lv;
 
     const tot = gameData.totalQuestions;
-    const cor = gameData.exactaAnswers + gameData.ideaAnswers;
-    document.getElementById('accuracyDisplay').textContent = tot>0 ? Math.round((cor/tot)*100)+'%' : '0%';
+    const cor = gameData.correctAnswers + gameData.perfectAnswers + gameData.partialAnswers;
+    document.getElementById('accuracyDisplay').textContent = tot > 0 ? Math.round((cor / tot) * 100) + '%' : '0%';
 
-    const cc = document.getElementById('comboCard');
-    if (gameData.comboCount>1) {
-        const cm = Math.min(1+gameData.comboCount*0.1,3);
-        document.getElementById('comboDisplay').textContent = 'x'+cm.toFixed(1);
-        cc.style.display='block';
-    } else { cc.style.display='none'; }
+    const comboCard = document.getElementById('comboCard');
+    if (gameData.comboCount > 1) {
+        const cMult = Math.min(1 + gameData.comboCount * 0.1, 3);
+        document.getElementById('comboDisplay').textContent = 'x' + cMult.toFixed(1);
+        comboCard.style.display = 'block';
+    } else { comboCard.style.display = 'none'; }
 
-    const xpN = gameData.level*50;
-    document.getElementById('xpFill').style.width = Math.min((gameData.experience/xpN)*100,100)+'%';
-    document.getElementById('xpText').textContent = `${gameData.experience} / ${xpN}`;
+    const xpNeeded = gameData.level * 50;
+    document.getElementById('xpFill').style.width  = Math.min((gameData.experience / xpNeeded) * 100, 100) + '%';
+    document.getElementById('xpText').textContent  = `${gameData.experience} / ${xpNeeded}`;
 }
 
 function updateProgress() {
     if (!questions.length) return;
-    const pct = Math.round(((currentIndex+1)/questions.length)*100);
-    document.getElementById('progressFill').style.width  = pct+'%';
-    document.getElementById('progressLabel').textContent = `${currentIndex+1} / ${questions.length}`;
-    document.getElementById('progressPct').textContent   = pct+'%';
+    const pct = Math.round(((currentIndex + 1) / questions.length) * 100);
+    document.getElementById('progressFill').style.width   = pct + '%';
+    document.getElementById('progressLabel').textContent  = `${currentIndex + 1} / ${questions.length}`;
+    document.getElementById('progressPct').textContent    = pct + '%';
 }
 
+// ──────────────────────────────
+//  STATUS COUNTERS
+// ──────────────────────────────
 function renderStatusCounters() {
     const el = document.getElementById('statusCounters');
-    if (!allQuestions||allQuestions.length===0) { el.style.display='none'; return; }
-    const c={EXACTA:0,IDEA:0,PERDIDO:0,NUEVA:0};
-    allQuestions.forEach(q=>{ if(!q.status)c.NUEVA++; else if(c[q.status]!==undefined)c[q.status]++; });
-    el.innerHTML=`
+    if (!allQuestions || allQuestions.length === 0) { el.style.display = 'none'; return; }
+    const c = { PERFECTA: 0, CORRECTA: 0, PARCIAL: 0, INCORRECTA: 0, NUEVA: 0 };
+    allQuestions.forEach(q => {
+        if (!q.status) c.NUEVA++;
+        else if (c[q.status] !== undefined) c[q.status]++;
+    });
+    el.innerHTML = `
         <span class="status-badge total">📚 ${allQuestions.length}</span>
-        ${c.EXACTA  ?`<span class="status-badge exacta">✅ ${c.EXACTA} exactas</span>`:''}
-        ${c.IDEA    ?`<span class="status-badge idea">💡 ${c.IDEA} con idea</span>`:''}
-        ${c.PERDIDO ?`<span class="status-badge perdido">❌ ${c.PERDIDO} perdido</span>`:''}
-        ${c.NUEVA   ?`<span class="status-badge nueva">🆕 ${c.NUEVA} nuevas</span>`:''}`;
-    el.style.display='flex';
+        ${c.PERFECTA  ? `<span class="status-badge perfecta">⭐ ${c.PERFECTA}</span>` : ''}
+        ${c.CORRECTA  ? `<span class="status-badge correcta">✅ ${c.CORRECTA}</span>` : ''}
+        ${c.PARCIAL   ? `<span class="status-badge parcial">⚡ ${c.PARCIAL}</span>` : ''}
+        ${c.INCORRECTA? `<span class="status-badge incorrecta">❌ ${c.INCORRECTA}</span>` : ''}
+        ${c.NUEVA     ? `<span class="status-badge nueva">🆕 ${c.NUEVA}</span>` : ''}
+    `;
+    el.style.display = 'flex';
 }
 
 // ──────────────────────────────
-//  STORAGE: DOCS
-// ──────────────────────────────
-function loadDocs()     { return safeParseJSON(localStorage.getItem(KEY_DOCS), {}); }
-function saveDocs(docs) { try { localStorage.setItem(KEY_DOCS, JSON.stringify(docs)); } catch(e){} }
-
-// ──────────────────────────────
-//  STORAGE: GAMEDATA
+//  GUARDAR / CARGAR
 // ──────────────────────────────
 function saveGameData() {
-    ['points','experience','level','streak','lives','maxLives','comboCount',
-     'exactaAnswers','ideaAnswers','perdidoAnswers','skippedAnswers'].forEach(k=>{
-        if(isNaN(gameData[k])) gameData[k]=k==='level'?1:k==='maxLives'?5:0;
+    ['points','experience','level','streak','lives','maxLives','comboCount'].forEach(k => {
+        if (isNaN(gameData[k])) gameData[k] = k === 'level' ? 1 : k === 'maxLives' ? 5 : 0;
     });
-    try { localStorage.setItem(KEY_GAME, JSON.stringify(gameData)); } catch(e){}
+    try { localStorage.setItem('studymaster_game_data', JSON.stringify(gameData)); } catch(e) {}
+    try {
+        const map = {};
+        const src = allQuestions.length > 0 ? allQuestions : questions;
+        src.forEach(q => { if (q && q.question) map[q.question] = q.status || null; });
+        localStorage.setItem('studymaster_question_status', JSON.stringify(map));
+    } catch(e) {}
 }
 
 function loadGameData() {
-    const s = safeParseJSON(localStorage.getItem(KEY_GAME), null);
-    if (s) {
-        gameData = { ...gameData, ...s };
-        // Compatibilidad: mapear stats viejos al nuevo esquema
-        if (s.perfectAnswers!==undefined && !s.exactaAnswers) gameData.exactaAnswers = s.perfectAnswers||0;
-        if (s.correctAnswers!==undefined && !s.ideaAnswers)   gameData.ideaAnswers   = s.correctAnswers||0;
-        if (s.incorrectAnswers!==undefined&&!s.perdidoAnswers)gameData.perdidoAnswers= s.incorrectAnswers||0;
+    const saved = safeParseJSON(localStorage.getItem('studymaster_game_data'), null);
+    if (saved) {
+        gameData = { ...gameData, ...saved };
+        ['points','experience','level','streak','lives','maxLives','comboCount'].forEach(k => {
+            if (isNaN(gameData[k])) gameData[k] = k === 'level' ? 1 : k === 'maxLives' ? 5 : 0;
+        });
     }
+    const savedMap = safeParseJSON(localStorage.getItem('studymaster_question_status'), null);
+    if (savedMap) window.__studymaster_saved_question_status_map = savedMap;
 }
 
 // ──────────────────────────────
@@ -1135,142 +1499,296 @@ function loadGameData() {
 // ──────────────────────────────
 function exportGameData() {
     try {
-        const payload = { gameData, docs: loadDocs() };
-        const blob = new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+        const statusMap = safeParseJSON(localStorage.getItem('studymaster_question_status'), {});
+        const payload   = { gameData, question_status: statusMap };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         const url  = URL.createObjectURL(blob);
         const a    = document.createElement('a');
-        a.href=url; a.download='studymaster_progreso.json';
+        a.href = url; a.download = 'studymaster_progress.json';
         document.body.appendChild(a); a.click(); a.remove();
         URL.revokeObjectURL(url);
-        showMessage('📤 Progreso exportado','success');
-    } catch(e){ showMessage('❌ Error exportando','error'); }
+        showMessage('📤 Progreso exportado', 'success');
+    } catch(e) { showMessage('❌ Error exportando', 'error'); }
 }
 
 function importGameData(event) {
-    const file = event.target.files&&event.target.files[0];
-    if (!file||!file.name.endsWith('.json')){ showMessage('❌ Archivo .json inválido','error'); return; }
+    const file = event.target.files && event.target.files[0];
+    if (!file || !file.name.endsWith('.json')) { showMessage('❌ Archivo .json inválido', 'error'); return; }
     const reader = new FileReader();
     reader.onload = (e) => {
         try {
             const imp = JSON.parse(e.target.result);
-            if (!imp||typeof imp!=='object') throw new Error();
-            if (imp.gameData) gameData={...gameData,...imp.gameData};
-            if (imp.docs)     saveDocs(imp.docs);
-            // compatibilidad formato antiguo
-            if (imp.question_status && !imp.docs) {
-                // migrar formato viejo a nuevo
-                showMessage('⚠️ Formato antiguo: recarga tus archivos .txt','warning');
+            if (!imp || typeof imp !== 'object') throw new Error();
+            if (imp.gameData) gameData = { ...gameData, ...imp.gameData };
+            else              gameData = { ...gameData, ...imp };
+            if (imp.question_status) {
+                localStorage.setItem('studymaster_question_status', JSON.stringify(imp.question_status));
+                window.__studymaster_saved_question_status_map = imp.question_status;
+                if (allQuestions.length > 0)
+                    allQuestions.forEach(q => { if (q && imp.question_status[q.question]) q.status = imp.question_status[q.question]; });
             }
-            saveGameData(); updateGameStats(); showHomeScreen();
-            showMessage('📥 Progreso importado','success');
-        } catch(err){ showMessage('❌ Archivo inválido','error'); }
+            gameData.points = isNaN(gameData.points) ? 0 : gameData.points;
+            gameData.level  = isNaN(gameData.level)  ? 1 : gameData.level;
+            gameData.lives  = isNaN(gameData.lives)  ? 5 : gameData.lives;
+            saveGameData(); updateGameStats(); renderStatusCounters();
+            showMessage('📥 Progreso importado', 'success');
+        } catch(err) { showMessage('❌ Archivo inválido', 'error'); }
     };
-    reader.readAsText(file,'UTF-8');
-    event.target.value='';
+    reader.readAsText(file, 'UTF-8');
+    event.target.value = '';
 }
 
 // ──────────────────────────────
 //  RESET
 // ──────────────────────────────
 function showResetConfirmation() {
-    cancelReset();
-    const docs = loadDocs();
-    const totalDocs = Object.keys(docs).length;
-    const modal = document.createElement('div');
-    modal.className='reset-modal'; modal.id='resetModal';
-    modal.innerHTML=`
+    cancelReset(); // por si había uno abierto
+    const totalQ  = allQuestions.length;
+    const studied = allQuestions.filter(q => q.status).length;
+    const modal   = document.createElement('div');
+    modal.className = 'reset-modal';
+    modal.id        = 'resetModal';
+    modal.innerHTML = `
         <div class="reset-modal-content">
             <div class="reset-warning-icon">🗑️</div>
-            <h3>Limpiar Todo el Progreso</h3>
-            <p class="reset-subtitle">Se eliminará <strong>todo</strong> lo guardado en este navegador.</p>
+            <h3>Limpiar Progreso</h3>
+            <p class="reset-subtitle">Esta acción eliminará <strong>todo</strong> el progreso guardado en este navegador y dejará la aplicación como nueva.</p>
             <div class="reset-detail-list">
                 <div class="reset-detail-item">💎 <span>Puntos acumulados</span><strong>${gameData.points.toLocaleString()}</strong></div>
                 <div class="reset-detail-item">🎯 <span>Nivel</span><strong>${gameData.level}</strong></div>
-                <div class="reset-detail-item">📚 <span>Archivos guardados</span><strong>${totalDocs}</strong></div>
+                <div class="reset-detail-item">🔥 <span>Racha máxima</span><strong>${gameData.maxStreak}</strong></div>
+                <div class="reset-detail-item">📚 <span>Preguntas estudiadas</span><strong>${studied} / ${totalQ}</strong></div>
+                <div class="reset-detail-item">💾 <span>Cache del navegador</span><strong>se limpiará</strong></div>
             </div>
-            <p class="reset-warning-text">⚠️ Esta acción <strong>no se puede deshacer</strong>. Exporta primero si quieres conservar algo.</p>
+            <p class="reset-warning-text">⚠️ Esta acción <strong>no se puede deshacer</strong>. Exporta tu progreso primero si quieres conservarlo.</p>
             <div class="reset-modal-buttons">
                 <button class="confirm-btn" onclick="confirmReset()">🗑️ Sí, limpiar todo</button>
-                <button class="cancel-btn" onclick="cancelReset()">Cancelar</button>
+                <button class="cancel-btn"  onclick="cancelReset()">Cancelar</button>
             </div>
-        </div>`;
+        </div>
+    `;
     document.body.appendChild(modal);
     document.getElementById('menuDropdown').classList.add('hidden');
 }
 
 async function confirmReset() {
     cancelReset();
-    gameData={level:1,points:0,experience:0,streak:0,maxStreak:0,lives:5,maxLives:5,comboCount:0,maxCombo:0,totalQuestions:0,exactaAnswers:0,ideaAnswers:0,perdidoAnswers:0,skippedAnswers:0,achievements:[],sessionStartTime:null};
+
+    // 1. Resetear gameData en memoria
+    gameData = {
+        level:1, points:0, experience:0, streak:0, maxStreak:0,
+        lives:5, maxLives:5, comboCount:0, maxCombo:0,
+        totalQuestions:0, correctAnswers:0, incorrectAnswers:0,
+        partialAnswers:0, perfectAnswers:0, skippedAnswers:0,
+        achievements:[], sessionStartTime:null
+    };
+
+    // 2. Limpiar localStorage completamente
     localStorage.clear();
-    if ('caches' in window) { try { const ks=await caches.keys(); await Promise.all(ks.map(k=>caches.delete(k))); }catch(e){} }
-    currentMode=null; questions=[]; currentIndex=0; allQuestions=[]; currentDocName=null;
-    document.body.className='';
+    window.__studymaster_saved_question_status_map = {};
+
+    // 3. Resetear estados de preguntas en memoria
+    allQuestions.forEach(q => q.status = null);
+    questions.forEach(q => q.status = null);
+
+    // 4. Limpiar cache del Service Worker
+    if ('caches' in window) {
+        try {
+            const keys = await caches.keys();
+            await Promise.all(keys.map(k => caches.delete(k)));
+        } catch(e) { console.warn('No se pudo limpiar cache SW:', e); }
+    }
+
+    // 5. Volver al estado inicial de la UI
+    currentMode = null;
+    questions   = [];
+    currentIndex = 0;
+    document.body.className = '';
+
+    const ids = ['questionCard','progressContainer','modeBadge','sessionSummary','gameoverScreen'];
+    ids.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
+
+    if (allQuestions.length > 0) {
+        document.getElementById('fileUpload').style.display = 'none';
+        document.getElementById('startArea').style.display  = 'block';
+    } else {
+        document.getElementById('fileUpload').style.display = 'block';
+        document.getElementById('startArea').style.display  = 'none';
+    }
+
     updateGameStats();
-    showHomeScreen();
-    const al=document.createElement('div');
-    al.className='reset-success-alert';
-    al.innerHTML=`<div class="rsa-icon">✅</div><div class="rsa-content"><div class="rsa-title">Progreso eliminado correctamente</div><div class="rsa-desc">StudyMaster está como nuevo — ¡listo para empezar de cero!</div></div><button class="rsa-close" onclick="this.parentElement.remove()">✕</button>`;
-    document.body.appendChild(al);
-    setTimeout(()=>{ if(al.parentElement)al.remove(); },5000);
+    renderStatusCounters();
+
+    // 6. Mostrar alerta de confirmación
+    showResetSuccessAlert();
 }
 
-function cancelReset() { const m=document.getElementById('resetModal'); if(m)m.remove(); }
+function showResetSuccessAlert() {
+    const alert = document.createElement('div');
+    alert.className = 'reset-success-alert';
+    alert.innerHTML = `
+        <div class="rsa-icon">✅</div>
+        <div class="rsa-content">
+            <div class="rsa-title">Progreso eliminado correctamente</div>
+            <div class="rsa-desc">El proceso guardado de la aplicación se reinició.<br>StudyMaster está como nuevo — ¡listo para empezar de cero!</div>
+        </div>
+        <button class="rsa-close" onclick="this.parentElement.remove()">✕</button>
+    `;
+    document.body.appendChild(alert);
+    // Auto-cerrar después de 5 s
+    setTimeout(() => { if (alert.parentElement) alert.remove(); }, 5000);
+}
+
+function cancelReset() {
+    const m = document.getElementById('resetModal');
+    if (m) m.remove();
+}
 
 // ──────────────────────────────
 //  FORMAT MODAL
 // ──────────────────────────────
-function showFormatModal() { document.getElementById('formatModal').style.display='flex'; document.getElementById('menuDropdown').classList.add('hidden'); }
-function closeFormatModal(e) { if(e.target===document.getElementById('formatModal'))closeFormatModalDirect(); }
-function closeFormatModalDirect() { document.getElementById('formatModal').style.display='none'; }
+function showFormatModal() {
+    document.getElementById('formatModal').style.display = 'flex';
+    document.getElementById('menuDropdown').classList.add('hidden');
+}
+function closeFormatModal(e) { if (e.target === document.getElementById('formatModal')) closeFormatModalDirect(); }
+function closeFormatModalDirect() { document.getElementById('formatModal').style.display = 'none'; }
 
 // ──────────────────────────────
-//  DESCARGAR ARCHIVOS REFERENCIA
+//  DESCARGA DE ARCHIVOS DE REFERENCIA
 // ──────────────────────────────
 function downloadFile(filename) {
-    const files={
-        'preguntas_ejemplo.txt':`¿Qué es una base de datos relacional?\nOrganiza datos en tablas relacionadas mediante claves primarias y foráneas.\n¿Qué es SQL?\nLenguaje de consulta estructurado para gestionar y manipular bases de datos.\n¿Cuál es la diferencia entre WHERE y HAVING?\nWHERE filtra filas antes de agrupar; HAVING filtra grupos después del GROUP BY.`,
-        'promptt de referencia.txt':`=== PROMPT DE REFERENCIA — StudyMaster ===\n\nConvierte el siguiente texto en tarjetas pregunta/respuesta en TEXTO PLANO:\n\nREGLAS:\n1. Línea 1 = pregunta, Línea 2 = respuesta. Sin líneas vacías entre pares.\n2. Sin numeración, viñetas ni marcado.\n3. Cada pregunta termina con "?".\n4. Respuestas concisas (1-3 oraciones).\n\nEJEMPLO:\n¿Qué es SQL?\nLenguaje estructurado para gestionar bases de datos relacionales.\n\nTEXTO A CONVERTIR:\n[PEGA AQUÍ TUS APUNTES]`
+    const files = {
+        'preguntas_ejemplo.txt': generateEjemploTxt(),
+        'promptt de referencia.txt': generatePromptTxt()
     };
-    const content=files[filename];
-    if(!content){showMessage('❌ Archivo no encontrado','error');return;}
-    const blob=new Blob([content],{type:'text/plain;charset=utf-8'});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.href=url;a.download=filename;
-    document.body.appendChild(a);a.click();a.remove();
+    const content = files[filename];
+    if (!content) { showMessage('❌ Archivo no encontrado', 'error'); return; }
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
     URL.revokeObjectURL(url);
     showMessage(`⬇️ Descargando "${filename}"`, 'success');
+}
+
+function generateEjemploTxt() {
+    return `¿Qué es una base de datos relacional?
+Es un sistema de almacenamiento que organiza los datos en tablas relacionadas mediante claves primarias y foráneas, permitiendo consultas eficientes con SQL.
+¿Cuál es la diferencia entre una clave primaria y una clave foránea?
+La clave primaria identifica de forma única cada fila en su propia tabla; la clave foránea referencia la clave primaria de otra tabla para establecer una relación entre ambas.
+¿Qué es la normalización en bases de datos?
+Es el proceso de organizar tablas y columnas para reducir la redundancia y mejorar la integridad, aplicando formas normales (1FN, 2FN, 3FN, BCNF).
+¿Qué diferencia hay entre WHERE y HAVING?
+WHERE filtra filas antes de cualquier agrupación; HAVING filtra los grupos resultantes del GROUP BY. WHERE no puede usar funciones de agregación, HAVING sí.
+¿Qué es un índice en una base de datos?
+Es una estructura (generalmente árbol B+) que acelera la búsqueda de filas a costa de mayor espacio en disco y tiempo en escrituras.
+¿Qué significa ACID en transacciones?
+Atomicidad (todo o nada), Consistencia (estado válido), Aislamiento (sin interferencia entre transacciones), Durabilidad (cambios confirmados persisten ante fallos).
+¿Cuál es la diferencia entre INNER JOIN y LEFT JOIN?
+INNER JOIN devuelve solo filas con coincidencia en ambas tablas. LEFT JOIN devuelve todas las filas de la tabla izquierda, con NULL donde no hay coincidencia en la derecha.
+¿Qué es un trigger en SQL?
+Procedimiento almacenado que se ejecuta automáticamente antes o después de un INSERT, UPDATE o DELETE, útil para auditoría y validaciones en cascada.`.trim();
+}
+
+function generatePromptTxt() {
+    return `=== PROMPT DE REFERENCIA — StudyMaster ===
+
+Pega este prompt en ChatGPT o Claude para convertir tus apuntes
+al formato que StudyMaster necesita.
+
+──────────────────────────────────────────
+PROMPT (copia desde aquí):
+──────────────────────────────────────────
+
+Convierte el siguiente texto en tarjetas de preguntas y respuestas
+en TEXTO PLANO, siguiendo EXACTAMENTE estas reglas:
+
+REGLAS OBLIGATORIAS:
+1. Cada par ocupa DOS líneas: línea 1 = pregunta, línea 2 = respuesta.
+2. NO dejes líneas en blanco entre pares.
+3. NO uses numeración, viñetas, guiones ni marcado de ningún tipo.
+4. Cada pregunta debe terminar con "?".
+5. Las respuestas deben ser completas pero concisas (1-3 oraciones).
+6. Guarda el resultado como .txt con codificación UTF-8.
+
+EJEMPLO CORRECTO:
+¿Qué es SQL?
+Lenguaje estructurado para gestionar bases de datos relacionales mediante SELECT, INSERT, UPDATE y DELETE.
+¿Qué es una transacción?
+Conjunto de operaciones que se ejecutan como unidad atómica; si alguna falla, todas se revierten para mantener la consistencia.
+
+TEXTO A CONVERTIR:
+[PEGA AQUÍ TUS APUNTES O DIAPOSITIVAS]
+
+──────────────────────────────────────────
+CONSEJOS:
+- Pega texto copiado de tus diapositivas o apuntes directamente.
+- Pide entre 10 y 30 preguntas por tema para sesiones manejables.
+- Guarda cada tema en un archivo .txt separado.
+- Usa "Modo Repaso" para aprender y "Modo Desafío" para ponerte a prueba.
+──────────────────────────────────────────`.trim();
 }
 
 // ──────────────────────────────
 //  MENSAJES
 // ──────────────────────────────
-function showMessage(text, type='info') {
-    const ex=document.querySelector('.message-popup'); if(ex)ex.remove();
-    const p=document.createElement('div'); p.className='message-popup'; p.textContent=text;
-    const c={error:'linear-gradient(135deg,#ef4444,#dc2626)',success:'linear-gradient(135deg,#10b981,#059669)',warning:'linear-gradient(135deg,#f59e0b,#d97706)',info:'linear-gradient(135deg,#7c3aed,#5b21b6)'};
-    p.style.background=c[type]||c.info;
-    document.body.appendChild(p);
-    setTimeout(()=>{p.style.transition='opacity 0.3s';p.style.opacity='0';setTimeout(()=>p.remove(),300);},2700);
+function showMessage(text, type = 'info') {
+    const existing = document.querySelector('.message-popup');
+    if (existing) existing.remove();
+    const popup = document.createElement('div');
+    popup.className = 'message-popup';
+    popup.textContent = text;
+    const colors = {
+        error:   'linear-gradient(135deg,#ef4444,#dc2626)',
+        success: 'linear-gradient(135deg,#10b981,#059669)',
+        warning: 'linear-gradient(135deg,#f59e0b,#d97706)',
+        info:    'linear-gradient(135deg,#7c3aed,#5b21b6)'
+    };
+    popup.style.background = colors[type] || colors.info;
+    document.body.appendChild(popup);
+    setTimeout(() => {
+        popup.style.transition = 'opacity 0.3s';
+        popup.style.opacity = '0';
+        setTimeout(() => popup.remove(), 300);
+    }, 2700);
 }
 
 // ──────────────────────────────
-//  UTILS
+//  UTILIDADES
 // ──────────────────────────────
-function shuffleArray(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function safeParseJSON(str,fallback){try{return JSON.parse(str);}catch{return fallback;}}
+function shuffleArray(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+function safeParseJSON(str, fallback) { try { return JSON.parse(str); } catch { return fallback; } }
 
-// Globals
-window.toggleMenu=toggleMenu;window.showResetConfirmation=showResetConfirmation;
-window.confirmReset=confirmReset;window.cancelReset=cancelReset;
-window.showFormatModal=showFormatModal;window.closeFormatModal=closeFormatModal;
-window.closeFormatModalDirect=closeFormatModalDirect;window.downloadFile=downloadFile;
-window.startSession=startSession;window.showAnswer=showAnswer;
-window.evaluateAnswer=evaluateAnswer;window.nextQuestion=nextQuestion;
-window.exportGameData=exportGameData;window.importGameData=importGameData;
-window.selectDoc=selectDoc;window.deleteDoc=deleteDoc;
-window.continueSession=continueSession;window.discardSession=discardSession;
-window.goHome=goHome;window.showHomeScreen=showHomeScreen;
+// ──────────────────────────────
+//  EXPORTS GLOBALES
+// ──────────────────────────────
+window.exportGameData        = exportGameData;
+window.importGameData        = importGameData;
+window.downloadFile          = downloadFile;
+window.showFormatModal       = showFormatModal;
+window.closeFormatModal      = closeFormatModal;
+window.closeFormatModalDirect= closeFormatModalDirect;
+window.toggleMenu            = toggleMenu;
+window.showResetConfirmation = showResetConfirmation;
+window.confirmReset          = confirmReset;
+window.cancelReset           = cancelReset;
+window.startSession          = startSession;
+window.showAnswer            = showAnswer;
+window.evaluateAnswer        = evaluateAnswer;
+window.nextQuestion          = nextQuestion;
+window.replayMode            = replayMode;
+window.goToMenu              = goToMenu;
+window.retryDesafio          = retryDesafio;
+
 </script>
 </body>
 </html>
